@@ -32,11 +32,11 @@ Route::group(['middleware' => 'auth'], function () {
    Route::post('/uploadPhoto','ProfileController@uploadPhoto');
    
    
-   Route::get('editProfile', function(){
+   Route::get('editProfile', 'ProfileController@editProfileForm');
        
-      
-       return view('profile.editProfile')->with('info', Auth::user()->profile);
-   });
+   Route::post('/updateProfile','ProfileController@updateProfile');
+       
+ 
 
 });
 
