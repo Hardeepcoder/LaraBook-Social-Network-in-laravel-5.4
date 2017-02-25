@@ -5,20 +5,17 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
-{
-  
+class User extends Authenticatable {
 
-use Notifiable;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-       
     protected $fillable = [
-        'name', 'email', 'password','slug','gender','pic'
+        'name', 'email', 'password', 'slug', 'gender', 'pic'
     ];
 
     /**
@@ -29,4 +26,9 @@ use Notifiable;
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function profile() {
+        return $this->hasOne('App\profile');
+    }
+
 }

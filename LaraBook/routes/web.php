@@ -30,6 +30,13 @@ Route::group(['middleware' => 'auth'], function () {
    });
    
    Route::post('/uploadPhoto','ProfileController@uploadPhoto');
+   
+   
+   Route::get('editProfile', function(){
+       
+      
+       return view('profile.editProfile')->with('info', Auth::user()->profile);
+   });
 
 });
 
