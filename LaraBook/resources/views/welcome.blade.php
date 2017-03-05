@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ config('app.locale') }}">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,7 +70,6 @@
                 <div class="top-right links">
                     @if (Auth::check())
                         <a href="{{ url('/home') }}">Home</a>
-                         <a href="{{ url('/profile') }}/{{ Auth::user()->slug }}">Profile</a>
                     @else
                         <a href="{{ url('/login') }}">Login</a>
                         <a href="{{ url('/register') }}">Register</a>
@@ -80,11 +79,14 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    LaraBook
+                    Laravel
                 </div>
-
-               
+                <div id="app">
+                  <my-vuetable></my-vuetable>
+                </div>
             </div>
         </div>
+
+        <script src="js/app.js"></script>
     </body>
 </html>

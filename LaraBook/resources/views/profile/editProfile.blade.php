@@ -12,7 +12,7 @@
 
 
     <div class="row">
-       @include('profile.sidebar')
+        @include('profile.sidebar')
 
 
         <div class="col-md-9">
@@ -33,35 +33,35 @@
                     </div>
 
                     <div class="col-sm-12 col-md-12">
-                        
-                        
+
+
                         <form action="{{url('/updateProfile')}}" method="post">     
                             <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                           
+
                             <div class="col-md-6">
 
                                 <div class="input-group">
                                     <span  id="basic-addon1">City Name</span>
-                                    <input type="text" class="form-control" placeholder="City Name" name="city">
+                                    <input type="text" class="form-control" placeholder="City Name" name="city" value="{{$data->city}}"> 
                                 </div>
                                 <br>
                                 <div class="input-group">
                                     <span  id="basic-addon1">Country Name</span>
-                                    <input type="text" class="form-control" placeholder="Country Name" name="country">
+                                    <input type="text" class="form-control" placeholder="Country Name" name="country" value="{{$data->country}}">
                                 </div>
-                               
+
 
                             </div>
-                            
-                             <div class="col-md-6">
+
+                            <div class="col-md-6">
                                 <div class="input-group">
                                     <span  id="basic-addon1">About</span>
-                                    <textarea type="text" class="form-control" name="about"></textarea>
+                                    <textarea type="text" class="form-control" name="about">{{$data->about}}</textarea>
                                 </div>
-                                 
-                                 <br>
-                                 
-                                  <div class="input-group">
+
+                                <br>
+
+                                <div class="input-group">
 
                                     <input type="submit" class="btn btn-success pull-right" >
                                 </div>

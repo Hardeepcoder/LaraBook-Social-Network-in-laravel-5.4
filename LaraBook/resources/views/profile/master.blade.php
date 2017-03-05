@@ -1,86 +1,94 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://use.fontawesome.com/595a5020bd.js"></script>
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+        <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <!-- Scripts -->
+        <script>
+            window.Laravel = {!! json_encode([
+                    'csrfToken' => csrf_token(),
+            ]) !!}
+            ;
+        </script>
+        <style>
 
-    <!-- Scripts -->
-    <script>
-        window.Laravel = {!! json_encode([
-            'csrfToken' => csrf_token(),
-        ]) !!};
-    </script>
-</head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
+            .panel-body{min-height: 400px}
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <nav class="navbar navbar-default navbar-static-top">
+                <div class="container">
+                    <div class="navbar-header">
 
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+                        <!-- Collapsed Hamburger -->
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                            <span class="sr-only">Toggle Navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
 
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
-                    
-                    
-                </div>
+                        <!-- Branding Image -->
+                        <a class="navbar-brand" href="{{ url('/') }}">
+                            {{ config('app.name', 'Laravel') }}
+                        </a>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                           @if (Auth::check())
-                        <li><a href="{{url('/profile')}}/{{ Auth::user()->slug }}">Profile</a></li>
-                      
-                         @endif
-                    </ul>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @if (Auth::guest())
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                        <!-- Left Side Of Navbar -->
+                        <ul class="nav navbar-nav">
+                            @if (Auth::check())
+                            <li><a href="{{url('/profile')}}/{{ Auth::user()->slug }}">Profile</a></li>
+                            <li><a href="{{url('/findFriends')}}">Find Friends</a></li>
+                              <li><a href="{{url('/requests')}}">My Requests</a></li>
+                            
+                           
+                            @endif
+                        </ul>
+
+                        <!-- Right Side Of Navbar -->
+                        <ul class="nav navbar-nav navbar-right">
+                            <!-- Authentication Links -->
+                            @if (Auth::guest())
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
-                        @else
-                        
-                        <li> <a href="">
-                                <img src="{{url('../')}}/public/img/{{Auth::user()->pic}}" width="30px" height="30px" class="img-circle"/>
-                               </a>  
-                        </li>
-                        
+                            @else
+
+                            <li> <a href="">
+                                    <img src="{{url('../')}}/public/img/{{Auth::user()->pic}}" width="30px" height="30px" class="img-circle"/>
+                                </a>  
+                            </li>
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ ucwords(Auth::user()->name) }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    
-                                      <li>
+
+                                    <li>
                                         <a href="{{ url('editProfile') }}" >  Edit Profile  </a>
 
-                                      
+
                                     </li>
-                                    
+
                                     <li>
                                         <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                           onclick="event.preventDefault();
+                                                   document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
 
@@ -88,20 +96,24 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
-                                    
-                                    
+
+
                                 </ul>
                             </li>
-                        @endif
-                    </ul>
+                            @endif
+                        </ul>
+                    </div>
                 </div>
+            </nav>
+
+            @yield('content')
+            <div style=" border-top: 1px solid #ddd" >
+
+                <div class="container"> <p class="pull-right" style="padding: 5px;">LaraBook - &copy; 2017</p></div>
             </div>
-        </nav>
+        </div>
 
-        @yield('content')
-    </div>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-</body>
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}"></script>
+    </body>
 </html>
