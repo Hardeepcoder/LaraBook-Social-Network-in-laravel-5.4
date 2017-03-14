@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\friendships;
+use App\notifcations;
 
 class ProfileController extends Controller {
 
@@ -61,13 +62,15 @@ class ProfileController extends Controller {
 
         $FriendRequests = DB::table('friendships')
                         ->rightJoin('users', 'users.id', '=', 'friendships.requester')
+                        ->orWhere('status', '=', Null)
                         ->where('friendships.user_requested', '=', $uid)->get();
 
 
         return view('profile.requests', compact('FriendRequests'));
     }
 
-    public function accept($id) {
+    public function accept($name, $id) {
+
         $uid = Auth::user()->id;
         $checkRequest = friendships::where('requester', $id)
                 ->where('user_requested', $uid)
@@ -75,19 +78,78 @@ class ProfileController extends Controller {
         if ($checkRequest) {
             // echo "yes, update here";
 
-         $updateFriendship =   DB::table('friendships')
+            $updateFriendship = DB::table('friendships')
                     ->where('user_requested', $uid)
                     ->where('requester', $id)
                     ->update(['status' => 1]);
-            
-            if($updateFriendship){
-                
-                return back()->with('msg', 'You are now Friend with this user');
+
+            $notifcations = new notifcations;
+            $notifcations->note = 'accepted your friend request';
+            $notifcations->user_hero = $id; // who is accepting my request
+            $notifcations->user_logged = Auth::user()->id; // me 
+            $notifcations->status = '1'; // unread notifications 
+            $notifcations->save();
+
+
+            if ($notifcations) {
+
+                return back()->with('msg', 'You are now Friend with ' . $name);
             }
-            
         } else {
-             return back()->with('msg', 'You are now Friend with this user');
+            return back()->with('msg', 'You are now Friend with this user');
         }
+    }
+
+    public function friends() {
+        $uid = Auth::user()->id;
+
+        $friends1 = DB::table('friendships')
+                ->leftJoin('users', 'users.id', 'friendships.user_requested') // who is not loggedin but send request to
+                ->where('status', 1)
+                ->where('requester', $uid) // who is loggedin
+                ->get();
+
+        //dd($friends1);
+
+        $friends2 = DB::table('friendships')
+                ->leftJoin('users', 'users.id', 'friendships.requester')
+                ->where('status', 1)
+                ->where('user_requested', $uid)
+                ->get();
+
+        $friends = array_merge($friends1->toArray(), $friends2->toArray());
+
+        return view('profile.friends', compact('friends'));
+    }
+
+    public function requestRemove($id) {
+
+        DB::table('friendships')
+                ->where('user_requested', Auth::user()->id)
+                ->where('requester', $id)
+                ->delete();
+
+        return back()->with('msg', 'Request has been deleted');
+    }
+
+    public function notifications($id) {
+
+         $uid = Auth::user()->id;
+        $notes = DB::table('notifcations')
+                ->leftJoin('users', 'users.id', 'notifcations.user_logged')
+                ->where('notifcations.id', $id)
+                ->where('user_hero', $uid)
+                ->orderBy('notifcations.created_at', 'desc')
+                ->get();
+        
+        
+        $updateNoti = DB::table('notifcations')                  
+                     ->where('notifcations.id', $id)
+                    ->update(['status' => 0]);
+
+        
+        
+       return view('profile.notifcations', compact('notes'));
     }
 
 }

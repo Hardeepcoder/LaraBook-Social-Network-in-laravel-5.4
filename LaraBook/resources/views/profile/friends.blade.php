@@ -17,7 +17,7 @@
 
         <div class="col-md-9">
             <div class="panel panel-default">
-                <div class="panel-heading">{{Auth::user()->name}}</div>
+                <div class="panel-heading">{{Auth::user()->name}}, Your Friends</div>
 
                 <div class="panel-body">
                     <div class="col-sm-12 col-md-12">
@@ -26,7 +26,7 @@
                                       {{ session()->get('msg') }}
                                    </p>
                                 @endif
-                        @foreach($FriendRequests as $uList)
+                        @foreach($friends as $uList)
 
                         <div class="row" style="border-bottom:1px solid #ccc; margin-bottom:15px">
                             <div class="col-md-2 pull-left">
@@ -44,9 +44,8 @@
                             <div class="col-md-3 pull-right"> 
                             
                                      <p>
-                                        <a href="{{url('/accept')}}/{{$uList->name}}/{{$uList->id}}"  class="btn btn-info btn-sm">Confirm</a>
-                                    
-                                         <a href="{{url('/requestRemove')}}/{{$uList->id}}"  class="btn btn-default btn-sm">Remove</a>
+                                      
+                                         <a href=""  class="btn btn-default btn-sm">UnFriend</a>
                                    
                                      </p>
                               

@@ -1,4 +1,5 @@
 <?php
+
 /*
   |--------------------------------------------------------------------------
   | Web Routes
@@ -9,6 +10,7 @@
   | contains the "web" middleware group. Now create something great!
   |
  */
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,12 +42,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/findFriends', 'ProfileController@findFriends');
 
     Route::get('/addFriend/{id}', 'ProfileController@sendRequest');
-    
-    
+
+
     Route::get('/requests', 'ProfileController@requests');
+
+    Route::get('/accept/{name}/{id}', 'ProfileController@accept');
+
+    Route::get('friends', 'ProfileController@friends');
     
-    Route::get('/accept/{id}', 'ProfileController@accept');
-   
+    Route::get('requestRemove/{id}', 'ProfileController@requestRemove');
+    
+    Route::get('/notifications/{id}', 'ProfileController@notifications');
+  
 });
 
 Route::get('/logout', 'Auth\LoginController@logout');

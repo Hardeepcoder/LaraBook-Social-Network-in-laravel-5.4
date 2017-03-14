@@ -51,11 +51,13 @@
                         <!-- Left Side Of Navbar -->
                         <ul class="nav navbar-nav">
                             @if (Auth::check())
-                            <li><a href="{{url('/profile')}}/{{ Auth::user()->slug }}">Profile</a></li>
-                            <li><a href="{{url('/findFriends')}}">Find Friends</a></li>
-                              <li><a href="{{url('/requests')}}">My Requests</a></li>
-                            
-                           
+                          
+                            <li><a href="{{url('/findFriends')}}">Find Friends </a></li>
+                              <li><a href="{{url('/requests')}}">My Requests
+                                      <span style="color:green; font-weight:bold; font-size:16px">({{App\friendships::where('status', Null)
+                                                  ->where('user_requested', Auth::user()->id)
+                                                  ->count()}})</span></a></li>
+
                             @endif
                         </ul>
 
@@ -67,23 +69,50 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                             @else
 
-                            <li> <a href="">
-                                    <img src="{{url('../')}}/public/img/{{Auth::user()->pic}}" width="30px" height="30px" class="img-circle"/>
-                                </a>  
+                          
+                           
+                            
+                            <li>
+                                <a href="{{url('/friends')}}"> <i class="fa fa-users  fa-2x" aria-hidden="true"></i></a>
                             </li>
 
-                            <li class="dropdown">
+                               <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
+                                   role="button" aria-expanded="false">
+                                    <i class="fa fa-globe fa-2x" aria-hidden="true"></i>
+                                    <span class="badge" 
+                                          style="background:red; position: relative; top: -15px; left:-10px">
+                                 {{App\notifcations::where('status', 1)
+                                     ->where('user_hero', Auth::user()->id)
+                                      ->count()}}
+                                    </span>
+                                </a>
+                                   <?php 
+                                   $notes = DB::table('users')
+                                        ->leftJoin('notifcations', 'users.id', 'notifcations.user_logged')
+                                    ->where('user_hero', Auth::user()->id)
+                                           ->where('status', 1) //unread noti
+                                           ->orderBy('notifcations.created_at', 'desc')
+                                    ->get();
+                                   ?>
+
+                                   <ul class="dropdown-menu" role="menu">
+                                       @foreach($notes as $note)
+                                       <li><a href="{{url('/notifications')}}/{{$note->id}}"><b style="color:green">{{ucwords($note->name)}}</b> {{$note->note}}</a></li>
+                                       @endforeach
+                                   </ul>
+                                </li>
+
+                    <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ ucwords(Auth::user()->name) }} <span class="caret"></span>
+                                    <img src="{{url('../')}}/public/img/{{Auth::user()->pic}}" width="30px" height="30px" class="img-circle"/>
+                                    <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
 
-                                    <li>
-                                        <a href="{{ url('editProfile') }}" >  Edit Profile  </a>
-
-
-                                    </li>
+                                    <li> <a href="{{ url('/profile') }}" >   Profile  </a> </li>
+                                    <li> <a href="{{ url('editProfile') }}" >  Edit Profile  </a> </li>
 
                                     <li>
                                         <a href="{{ route('logout') }}"
