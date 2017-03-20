@@ -28,25 +28,25 @@
                                 <img src="{{url('../')}}/public/img/{{$uList->pic}}" width="80px" height="80px" class="img-rounded"/>
                             </div>
 
-                            <div class="col-md-7 pull-left"> 
-                                <h3 style="margin:0px;"><a href="">{{ucwords($uList->name)}}</a></h3>
+                            <div class="col-md-7 pull-left">
+                                <h3 style="margin:0px;"><a href="{{url('/profile')}}/{{$uList->slug}}">{{ucwords($uList->name)}}</a></h3>
                                 <p><i class="fa fa-globe"></i> {{$uList->city}}  - {{$uList->country}}</p>
                                 <p>{{$uList->about}}</p>
 
                             </div>
 
-                            <div class="col-md-3 pull-right"> 
-                                
-                                <?php 
+                            <div class="col-md-3 pull-right">
+
+                                <?php
                                 $check = DB::table('friendships')
                                         ->where('user_requested', '=', $uList->id)
                                         ->where('requester', '=', Auth::user()->id)
                                         ->first();
-                                
+
                                 if($check ==''){
                                 ?>
                                    <p>
-                                        <a href="{{url('/')}}/addFriend/{{$uList->id}}" 
+                                        <a href="{{url('/')}}/addFriend/{{$uList->id}}"
                                            class="btn btn-info btn-sm">Add to Friend</a>
                                     </p>
                                 <?php } else {?>

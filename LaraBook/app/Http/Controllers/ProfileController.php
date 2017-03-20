@@ -12,7 +12,12 @@ class ProfileController extends Controller {
 
     public function index($slug) {
 
-        return view('profile.index')->with('data', Auth::user()->profile);
+     $userData = DB::table('users')
+     ->leftJoin('profiles', 'profiles.user_id','users.id')
+     ->where('slug', $slug)
+     ->get();
+
+        return view('profile.index', compact('userData'))->with('data', Auth::user()->profile);
     }
 
     public function uploadPhoto(Request $request) {
@@ -86,8 +91,8 @@ class ProfileController extends Controller {
             $notifcations = new notifcations;
             $notifcations->note = 'accepted your friend request';
             $notifcations->user_hero = $id; // who is accepting my request
-            $notifcations->user_logged = Auth::user()->id; // me 
-            $notifcations->status = '1'; // unread notifications 
+            $notifcations->user_logged = Auth::user()->id; // me
+            $notifcations->status = '1'; // unread notifications
             $notifcations->save();
 
 
@@ -141,14 +146,14 @@ class ProfileController extends Controller {
                 ->where('user_hero', $uid)
                 ->orderBy('notifcations.created_at', 'desc')
                 ->get();
-        
-        
-        $updateNoti = DB::table('notifcations')                  
+
+
+        $updateNoti = DB::table('notifcations')
                      ->where('notifcations.id', $id)
                     ->update(['status' => 0]);
 
-        
-        
+
+
        return view('profile.notifcations', compact('notes'));
     }
 

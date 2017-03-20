@@ -6,15 +6,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Laravel</title>
-
+  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fff;
-                color: #636b6f;
+                background-color: #ddd;
+
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
                 height: 100vh;
@@ -77,16 +77,50 @@
                 </div>
             @endif
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-                <div id="app">
-                  <my-vuetable></my-vuetable>
-                </div>
-            </div>
+
+<div class="container">
+  <div class="col-md-12" style="background-color:#fff">
+
+    <div class="col-md-2 pull-left">
+      <img src="http://localhost/larabook/public/img/47354305-profile-pictures.jpg" style="width:100px; margin:10px">
+    </div>
+
+    <div class="col-md-10">
+    <h3>name of user</h3>
+    <p> city name and country</p>
+    </div>
+
+    <p class="col-md-12" style="color:#333" > here will updated status written by users
+    </p>
+
+
+
+  </div>
+
+  <div class="col-md-12" style="background-color:#fff">
+
+    <div class="col-md-2 pull-left">
+      <img src="http://localhost/larabook/public/img/boy.png" style="width:100px; margin:10px">
+    </div>
+
+    <div class="col-md-10">
+    <h3>name of user</h3>
+    <p> city name and country</p>
+    </div>
+
+    <p class="col-md-12" style="color:#333" > here will updated status written by users
+    </p>
+
+
+
+  </div>
+
+</div>
+
+
+
         </div>
 
-        <script src="js/app.js"></script>
+        <script src="http://localhost/vuelara/public/js/app.js"></script>
     </body>
 </html>

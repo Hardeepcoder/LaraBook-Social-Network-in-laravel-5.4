@@ -51,7 +51,7 @@
                         <!-- Left Side Of Navbar -->
                         <ul class="nav navbar-nav">
                             @if (Auth::check())
-                          
+
                             <li><a href="{{url('/findFriends')}}">Find Friends </a></li>
                               <li><a href="{{url('/requests')}}">My Requests
                                       <span style="color:green; font-weight:bold; font-size:16px">({{App\friendships::where('status', Null)
@@ -69,25 +69,25 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                             @else
 
-                          
-                           
-                            
+
+
+
                             <li>
                                 <a href="{{url('/friends')}}"> <i class="fa fa-users  fa-2x" aria-hidden="true"></i></a>
                             </li>
 
                                <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                    role="button" aria-expanded="false">
                                     <i class="fa fa-globe fa-2x" aria-hidden="true"></i>
-                                    <span class="badge" 
+                                    <span class="badge"
                                           style="background:red; position: relative; top: -15px; left:-10px">
                                  {{App\notifcations::where('status', 1)
                                      ->where('user_hero', Auth::user()->id)
                                       ->count()}}
                                     </span>
                                 </a>
-                                   <?php 
+                                   <?php
                                    $notes = DB::table('users')
                                         ->leftJoin('notifcations', 'users.id', 'notifcations.user_logged')
                                     ->where('user_hero', Auth::user()->id)
@@ -98,7 +98,22 @@
 
                                    <ul class="dropdown-menu" role="menu">
                                        @foreach($notes as $note)
-                                       <li><a href="{{url('/notifications')}}/{{$note->id}}"><b style="color:green">{{ucwords($note->name)}}</b> {{$note->note}}</a></li>
+                                          <a href="{{url('/notifications')}}/{{$note->id}}">
+                                        <li>
+                                         <div class="row">
+                                          <div class="col-md-2">
+                                            <img src="{{url('../')}}/public/img/{{$note->pic}}"
+                                             style="width:40px; margin:5px" class="img-circle">
+                                          </div>
+
+                                        <div class="col-md-10">
+
+                                         <b style="color:green">{{ucwords($note->name)}}</b>
+                                          <span style="color:#000">{{$note->note}}</span>
+                                        </div>
+
+                                        </div>
+                                        </li></a>
                                        @endforeach
                                    </ul>
                                 </li>

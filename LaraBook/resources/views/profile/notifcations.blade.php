@@ -29,14 +29,14 @@
                         @foreach($notes as $note)
 
                         <div class="row" style="border-bottom:1px solid #ccc; margin-bottom:15px">
-                           
+
                             <ul>
                                 <li>
-                                    <p><a href="" style="font-weight: bold; color:green">
+                                    <p><a href="{{url('/profile')}}/{{$note->slug}}" style="font-weight: bold; color:green">
                                             {{$note->name}}</a> {{$note->note}}</p>
                                 </li>
                             </ul>
-                           
+
                         </div>
                         @endforeach
                     </div>

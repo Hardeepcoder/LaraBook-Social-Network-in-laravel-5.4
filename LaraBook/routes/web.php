@@ -49,11 +49,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/accept/{name}/{id}', 'ProfileController@accept');
 
     Route::get('friends', 'ProfileController@friends');
-    
+
     Route::get('requestRemove/{id}', 'ProfileController@requestRemove');
-    
+
     Route::get('/notifications/{id}', 'ProfileController@notifications');
-  
+
 });
 
 Route::get('/logout', 'Auth\LoginController@logout');
