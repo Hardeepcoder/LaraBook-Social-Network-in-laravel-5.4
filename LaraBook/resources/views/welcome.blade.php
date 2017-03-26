@@ -8,7 +8,6 @@
         <title>Laravel</title>
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
         <style>
@@ -63,13 +62,14 @@
                 margin-bottom: 30px;
             }
         </style>
+        <script src="https://use.fontawesome.com/595a5020bd.js"></script>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">Dashboard</a>
                     @else
                         <a href="{{ url('/login') }}">Login</a>
                         <a href="{{ url('/register') }}">Register</a>
@@ -79,48 +79,29 @@
 
 
 <div class="container">
-  <div class="col-md-12" style="background-color:#fff">
 
-    <div class="col-md-2 pull-left">
-      <img src="http://localhost/larabook/public/img/47354305-profile-pictures.jpg" style="width:100px; margin:10px">
+@foreach($posts as $post)
+    <div class="col-md-12" style="background-color:#fff">
+
+      <div class="col-md-2 pull-left">
+        <img src="{{url('../')}}/public/img/{{$post->pic}}" style="width:100px; margin:10px">
+      </div>
+
+      <div class="col-md-10">
+      <h3> {{ucwords($post->name)}}</h3>
+      <p> <i class="fa fa-globe"></i>
+        {{ucwords($post->city)}} | {{ucwords($post->country)}}</p>
+      </div>
+
+      <p class="col-md-12" style="color:#333" > {{$post->content}}</p>
+
     </div>
 
-    <div class="col-md-10">
-    <h3>name of user</h3>
-    <p> city name and country</p>
-    </div>
-
-    <p class="col-md-12" style="color:#333" > here will updated status written by users
-    </p>
-
-
-
-  </div>
-
-  <div class="col-md-12" style="background-color:#fff">
-
-    <div class="col-md-2 pull-left">
-      <img src="http://localhost/larabook/public/img/boy.png" style="width:100px; margin:10px">
-    </div>
-
-    <div class="col-md-10">
-    <h3>name of user</h3>
-    <p> city name and country</p>
-    </div>
-
-    <p class="col-md-12" style="color:#333" > here will updated status written by users
-    </p>
-
-
-
-  </div>
+@endforeach
 
 </div>
 
-
-
         </div>
 
-        <script src="http://localhost/vuelara/public/js/app.js"></script>
     </body>
 </html>

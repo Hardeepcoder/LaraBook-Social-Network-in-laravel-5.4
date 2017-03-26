@@ -33,22 +33,22 @@
                                 <img src="{{url('../')}}/public/img/{{$uList->pic}}" width="80px" height="80px" class="img-rounded"/>
                             </div>
 
-                            <div class="col-md-7 pull-left"> 
+                            <div class="col-md-7 pull-left">
                                 <h3 style="margin:0px;"><a href="">{{ucwords($uList->name)}}</a></h3>
-                               
+
                                 <p><b>Gender:</b> {{$uList->gender}}</p>
                                    <p><b>Email:</b> {{$uList->email}}</p>
 
                             </div>
 
-                            <div class="col-md-3 pull-right"> 
-                            
+                            <div class="col-md-3 pull-right">
+
                                      <p>
-                                      
-                                         <a href=""  class="btn btn-default btn-sm">UnFriend</a>
-                                   
+
+                                         <a href="{{url('/unfriend')}}/{{$uList->id}}"  class="btn btn-default btn-sm">UnFriend</a>
+
                                      </p>
-                              
+
                             </div>
 
                         </div>
