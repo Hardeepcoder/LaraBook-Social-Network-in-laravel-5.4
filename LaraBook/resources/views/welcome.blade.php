@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -13,41 +12,33 @@
         <style>
             html, body {
                 background-color: #ddd;
-
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
                 height: 100vh;
                 margin: 0;
             }
-
             .full-height {
                 height: 100vh;
             }
-
             .flex-center {
                 align-items: center;
                 display: flex;
                 justify-content: center;
             }
-
             .position-ref {
                 position: relative;
             }
-
             .top-right {
                 position: absolute;
                 right: 10px;
                 top: 18px;
             }
-
             .content {
                 text-align: center;
             }
-
             .title {
                 font-size: 84px;
             }
-
             .links > a {
                 color: #636b6f;
                 padding: 0 25px;
@@ -57,12 +48,11 @@
                 text-decoration: none;
                 text-transform: uppercase;
             }
-
             .m-b-md {
                 margin-bottom: 30px;
             }
         </style>
-        <script src="https://use.fontawesome.com/595a5020bd.js"></script>
+
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -78,30 +68,43 @@
             @endif
 
 
-<div class="container">
+<div class="container"  id="app">
 
-@foreach($posts as $post)
-    <div class="col-md-12" style="background-color:#fff">
+
+@{{msg}} <small style="color:green">@{{content}}</small>
+<form method="post" enctype="multipart/form-data" v-on:submit.prevent="addPost">
+<textarea v-model="content"></textarea>
+<button type="submit" class="btn btn-success">submit</button>
+</form>
+
+
+<div v-for="post in posts">
+  <div class="col-md-12" style="background-color:#fff">
 
       <div class="col-md-2 pull-left">
-        <img src="{{url('../')}}/public/img/{{$post->pic}}" style="width:100px; margin:10px">
+        <img src="{{url('../')}}/public/img/" style="width:100px; margin:10px">
       </div>
 
       <div class="col-md-10">
-      <h3> {{ucwords($post->name)}}</h3>
+      <h3> @{{post.name}}</h3>
       <p> <i class="fa fa-globe"></i>
-        {{ucwords($post->city)}} | {{ucwords($post->country)}}</p>
+        @{{post.city}} | @{{post.country}}</p>
+          <small><b>Gender:</b> @{{post.gender}}</small><br>
+        <small>@{{post.created_at}}</small>
       </div>
 
-      <p class="col-md-12" style="color:#333" > {{$post->content}}</p>
+      <p class="col-md-12" style="color:#333" > @{{post.content}}</p>
 
     </div>
 
-@endforeach
+</div>
+
 
 </div>
 
         </div>
+
+        <script src="public/js/app.js"></script>
 
     </body>
 </html>

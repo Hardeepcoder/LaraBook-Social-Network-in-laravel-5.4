@@ -1,7 +1,6 @@
 @extends('profile.master')
 
 @section('content')
-{
 <div class="container">
 
     <ol class="breadcrumb">

@@ -1,25 +1,27 @@
 <?php
 
-/*
-  |--------------------------------------------------------------------------
-  | Web Routes
-  |--------------------------------------------------------------------------
-  |
-  | Here is where you can register web routes for your application. These
-  | routes are loaded by the RouteServiceProvider within a group which
-  | contains the "web" middleware group. Now create something great!
-  |
- */
 
-
+//display posts
 Route::get('/', function () {
   $posts = DB::table('posts')
   ->leftJoin('profiles', 'profiles.user_id','posts.user_id')
-  ->leftJoin('users', 'users.id', 'posts.user_id')
+  ->leftJoin('users',  'posts.user_id' , 'users.id')
+  ->orderBy('posts.created_at', 'desc')->take(2)
   ->get();
-
     return view('welcome', compact('posts'));
 });
+
+Route::get('/posts', function () {
+  $posts_json = DB::table('posts')
+  ->leftJoin('profiles', 'profiles.user_id','posts.user_id')
+  ->leftJoin('users',  'posts.user_id' , 'users.id')
+  ->orderBy('posts.created_at', 'desc')->take(3)
+  ->get();
+    return $posts_json;
+});
+
+
+Route::post('addPost', 'PostsController@addPost');
 
 Auth::routes();
 
@@ -68,12 +70,11 @@ Route::group(['middleware' => 'auth'], function () {
               ->where('user_requested', $id)
               ->delete();
 
-              
+
               return back()->with('msg', 'You are not friend with this person');
         });
 
 });
 
-Route::get('posts', 'HomeController@index');
 
 Route::get('/logout', 'Auth\LoginController@logout');

@@ -13,8 +13,49 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
-
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: {
+   msg: 'Update New Post:',
+   content: '',
+   posts: [],
+
+ },
+
+ ready: function(){
+   this.created();
+ },
+
+ created(){
+   axios.get('http://localhost/larabook/index.php/posts')
+        .then(response => {
+          console.log(response); // show if success
+          this.posts = response.data; //we are putting data into our posts array
+
+        })
+        .catch(function (error) {
+          console.log(error); // run if we have error
+        });
+ },
+
+
+
+ methods:{
+
+   addPost(){
+
+     //alert('test function');
+     axios.post('http://localhost/larabook/index.php/addPost', {
+            content: this.content
+          })
+          .then(function (response) {
+            console.log('saved successfully'); // show if success
+
+          })
+          .catch(function (error) {
+            console.log(error); // run if we have error
+          });
+   }
+ }
+
 });

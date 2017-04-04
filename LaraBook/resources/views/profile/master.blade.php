@@ -13,13 +13,7 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-        <!-- Scripts -->
-        <script>
-            window.Laravel = {!! json_encode([
-                    'csrfToken' => csrf_token(),
-            ]) !!}
-            ;
-        </script>
+
         <style>
 
             .panel-body{min-height: 400px}
@@ -32,7 +26,8 @@
                     <div class="navbar-header">
 
                         <!-- Collapsed Hamburger -->
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                        <button type="button" class="navbar-toggle collapsed"
+                        data-toggle="collapse" data-target="#app-navbar-collapse">
                             <span class="sr-only">Toggle Navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -41,7 +36,7 @@
 
                         <!-- Branding Image -->
                         <a class="navbar-brand" href="{{ url('/') }}">
-                            {{ config('app.name', 'Laravel') }}
+                            {{ config('app.name', 'LaraBook') }}
                         </a>
 
 
@@ -54,7 +49,8 @@
 
                             <li><a href="{{url('/findFriends')}}">Find Friends </a></li>
                               <li><a href="{{url('/requests')}}">My Requests
-                                      <span style="color:green; font-weight:bold; font-size:16px">({{App\friendships::where('status', Null)
+                                      <span style="color:green; font-weight:bold;
+                                       font-size:16px">({{App\friendships::where('status', Null)
                                                   ->where('user_requested', Auth::user()->id)
                                                   ->count()}})</span></a></li>
 
@@ -159,13 +155,13 @@
             </nav>
 
             @yield('content')
-            <div style=" border-top: 1px solid #ddd" >
+            <div style=" border-top: 1px solid #ddd">
 
                 <div class="container"> <p class="pull-right" style="padding: 5px;">LaraBook - &copy; 2017</p></div>
             </div>
         </div>
 
         <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('public/js/app.js') }}"></script>
     </body>
 </html>
