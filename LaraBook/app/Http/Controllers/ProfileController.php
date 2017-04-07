@@ -157,4 +157,5 @@ class ProfileController extends Controller {
        return view('profile.notifcations', compact('notes'));
     }
 
+
 }

@@ -35,14 +35,14 @@
                     <div class="col-sm-12 col-md-12">
 
 
-                        <form action="{{url('/updateProfile')}}" method="post">     
+                        <form action="{{url('/updateProfile')}}" method="post">
                             <input type="hidden" name="_token" value="{{csrf_token()}}"/>
 
                             <div class="col-md-6">
 
                                 <div class="input-group">
                                     <span  id="basic-addon1">City Name</span>
-                                    <input type="text" class="form-control" placeholder="City Name" name="city" value="{{$data->city}}"> 
+                                    <input type="text" class="form-control" placeholder="City Name" name="city" value="{{$data->city}}">
                                 </div>
                                 <br>
                                 <div class="input-group">

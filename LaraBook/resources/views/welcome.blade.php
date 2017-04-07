@@ -82,7 +82,7 @@
   <div class="col-md-12" style="background-color:#fff">
 
       <div class="col-md-2 pull-left">
-        <img src="{{url('../')}}/public/img/" style="width:100px; margin:10px">
+        <img src="{{Config::get('app.url')}}/public/img/" style="width:100px; margin:10px">
       </div>
 
       <div class="col-md-10">

@@ -10,9 +10,7 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Styles -->
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
         <style>
 
@@ -92,7 +90,7 @@
                                     ->get();
                                    ?>
 
-                                   <ul class="dropdown-menu" role="menu">
+                                   <ul class="dropdown-menu" role="menu" style="width:320px">
                                        @foreach($notes as $note)
                                           <a href="{{url('/notifications')}}/{{$note->id}}">
                                             @if($note->status==1)
@@ -161,7 +159,6 @@
             </div>
         </div>
 
-        <!-- Scripts -->
-        <script src="{{ asset('public/js/app.js') }}"></script>
-    </body>
+        
+
 </html>
