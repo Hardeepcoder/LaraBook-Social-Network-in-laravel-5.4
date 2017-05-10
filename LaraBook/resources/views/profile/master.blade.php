@@ -64,10 +64,13 @@
                             @else
 
 
-
+                            <li>
+                              <a href="{{url('/messages')}}">messages</a>
+                            </li>
 
                             <li>
-                                <a href="{{url('/friends')}}"> <i class="fa fa-users  fa-2x" aria-hidden="true"></i></a>
+                                <a href="{{url('/friends')}}"> <i class="fa fa-users
+                                   fa-2x" aria-hidden="true"></i></a>
                             </li>
 
                                <li class="dropdown">
@@ -128,7 +131,7 @@
 
                                 <ul class="dropdown-menu" role="menu">
 
-                                    <li> <a href="{{ url('/profile') }}" >   Profile  </a> </li>
+                                    <li> <a href="{{ url('/profile') }}/{{Auth::user()->slug}}" >   Profile  </a> </li>
                                     <li> <a href="{{ url('editProfile') }}" >  Edit Profile  </a> </li>
 
                                     <li>
@@ -153,13 +156,12 @@
             </nav>
 
             @yield('content')
-            <div style=" border-top: 1px solid #ddd">
+            <div >
 
                 <div class="container"> <p class="pull-right" style="padding: 5px;">LaraBook - &copy; 2017</p></div>
             </div>
         </div>
 
-          <script src="../public/js/app.js"></script>
-
-
+        <script src="<?php echo Config::get('app.url');?>/public/js/profile.js"></script>
+</body>
 </html>

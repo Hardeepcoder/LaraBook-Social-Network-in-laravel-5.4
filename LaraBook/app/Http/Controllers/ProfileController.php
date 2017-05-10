@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\friendships;
 use App\notifcations;
-
+use App\User;
 class ProfileController extends Controller {
 
     public function index($slug) {
@@ -156,6 +156,8 @@ class ProfileController extends Controller {
 
        return view('profile.notifcations', compact('notes'));
     }
+
+
 
 
 }

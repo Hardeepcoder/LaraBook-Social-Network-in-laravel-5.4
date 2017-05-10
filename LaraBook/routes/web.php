@@ -1,25 +1,32 @@
 <?php
 
+Route::get('/messages', function(){
+  return view('messages');
+});
 
-//display posts
+Route::get('/getMessages', function(){
+  $allUsers = DB::table('users')->where('id', '!=', Auth::user()->id)->get();
+  return $allUsers;
+});
+
+
 Route::get('/', function () {
-  $posts = DB::table('posts')
-  ->leftJoin('profiles', 'profiles.user_id','posts.user_id')
-  ->leftJoin('users',  'posts.user_id' , 'users.id')
+  $posts = DB::table('users')
+  ->leftJoin('profiles', 'profiles.user_id','users.id')
+  ->leftJoin('posts',  'posts.user_id' , 'users.id')
   ->orderBy('posts.created_at', 'desc')->take(2)
   ->get();
     return view('welcome', compact('posts'));
 });
 
 Route::get('/posts', function () {
-  $posts_json = DB::table('posts')
-  ->leftJoin('profiles', 'profiles.user_id','posts.user_id')
-  ->leftJoin('users',  'posts.user_id' , 'users.id')
+  $posts_json = DB::table('users')
+  ->leftJoin('profiles', 'profiles.user_id','users.id')
+  ->leftJoin('posts',  'posts.user_id' , 'users.id')
   ->orderBy('posts.created_at', 'desc')->take(2)
   ->get();
     return $posts_json;
 });
-
 
 Route::post('addPost', 'PostsController@addPost');
 
