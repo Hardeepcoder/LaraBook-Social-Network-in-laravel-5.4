@@ -9,6 +9,21 @@ Route::get('/getMessages', function(){
   return $allUsers;
 });
 
+Route::get('/getMessages/{id}', function($id){
+  // check conversation
+  $checkCon = DB::table('conversation')->where('user_one', Auth::user()->id)
+  ->where('user_two',$id)->get();
+  if(count($checkCon)!=0){
+    //echo $checkCon[0]->id;
+    // fetch msgs
+    $userMsg = DB::table('messages')
+    ->where('messages.conversation_id', $checkCon[0]->id)->get();
+    return $userMsg;
+  }else{
+    echo "no messgaes";
+  }
+});
+
 
 Route::get('/', function () {
   $posts = DB::table('users')
