@@ -19,6 +19,8 @@ const app = new Vue({
    msg: 'Update New Post:',
    content: '',
    posts: [],
+   postId: '',
+
 
  },
 
@@ -31,13 +33,11 @@ const app = new Vue({
         .then(response => {
           console.log(response); // show if success
           this.posts = response.data; //we are putting data into our posts array
-
         })
         .catch(function (error) {
           console.log(error); // run if we have error
         });
  },
-
 
 
  methods:{
@@ -50,6 +50,9 @@ const app = new Vue({
           })
           .then(function (response) {
             console.log('saved successfully'); // show if success
+            if(response.status===200){
+              app.posts = response.data;
+            }
 
           })
           .catch(function (error) {

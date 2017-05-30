@@ -1,42 +1,6 @@
 <?php
 
-Route::get('/messages', function(){
-  return view('messages');
-});
-
-Route::get('/getMessages', function(){
-  $allUsers1 = DB::table('users')
-  ->Join('conversation','users.id','conversation.user_one')
-  ->where('conversation.user_two', Auth::user()->id)->get();
-  //return $allUsers1;
-
-  $allUsers2 = DB::table('users')
-  ->Join('conversation','users.id','conversation.user_two')
-  ->where('conversation.user_one', Auth::user()->id)->get();
-
-  return array_merge($allUsers1->toArray(), $allUsers2->toArray());
-});
-
-Route::get('/getMessages/{id}', function($id){
-  // check conversation
-/*  $checkCon = DB::table('conversation')->where('user_one', Auth::user()->id)
-  ->where('user_two',$id)->get();
-  if(count($checkCon)!=0){
-    //echo $checkCon[0]->id;
-    // fetch msgs
-    $userMsg = DB::table('messages')
-    ->where('messages.conversation_id', $checkCon[0]->id)->get();
-    return $userMsg;
-  }else{
-    echo "no messgaes";
-  } */
-  $userMsg = DB::table('messages')
-  ->join('users', 'users.id','messages.user_from')
-  ->where('messages.conversation_id', $id)->get();
-  return $userMsg;
-
-});
-
+Route::post('/sendMessage', 'ProfileController@sendMessage');
 
 Route::get('/', function () {
   $posts = DB::table('users')
@@ -105,8 +69,66 @@ Route::group(['middleware' => 'auth'], function () {
               ->where('user_requested', $id)
               ->delete();
 
+              DB::table('friendships')
+              ->where('user_requested', $loggedUser)
+              ->where('requester', $id)
+              ->delete();
+
 
               return back()->with('msg', 'You are not friend with this person');
+        });
+
+        //forgot password
+        Route::get('forgotPassword',function(){
+          return view('profile.forgotPassword');
+        });
+
+        Route::post('setToken','ProfileController@setToken');
+        //get random token by email
+        Route::get('/getToken/{token}',function($token){
+        // token is right or wrong
+        if(isset($token) && $token!=""){
+         $getData = DB::table('password_resets')->where('token',$token)->get();
+         if(count($getData)!=0){
+           return view('profile.setPassword')->with('data',$getData);
+
+         }else{
+           echo "token is wrong";
+         }
+        }else{
+          echo "token not found";
+        }
+        });
+
+
+        //set/update new password
+        Route::get('setPass','ProfileController@setPass');
+        //messenger start
+        Route::get('/messages', function(){
+          return view('messages');
+        });
+
+        // messenger start
+        Route::get('/getMessages', function(){
+          $allUsers1 = DB::table('users')
+          ->Join('conversation','users.id','conversation.user_one')
+          ->where('conversation.user_two', Auth::user()->id)->get();
+          //return $allUsers1;
+
+          $allUsers2 = DB::table('users')
+          ->Join('conversation','users.id','conversation.user_two')
+          ->where('conversation.user_one', Auth::user()->id)->get();
+
+          return array_merge($allUsers1->toArray(), $allUsers2->toArray());
+        });
+
+        Route::get('/getMessages/{id}', function($id){
+
+          $userMsg = DB::table('messages')
+          ->join('users', 'users.id','messages.user_from')
+          ->where('messages.conversation_id', $id)->get();
+          return $userMsg;
+
         });
 
 });

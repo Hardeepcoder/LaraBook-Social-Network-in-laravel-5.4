@@ -12,10 +12,7 @@
 
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-        <style>
 
-            .panel-body{min-height: 400px}
-        </style>
     </head>
     <body>
         <div id="app">
@@ -65,12 +62,15 @@
 
 
                             <li>
-                              <a href="{{url('/messages')}}">messages</a>
+                              <a href="{{url('/messages')}}" title="Messages">
+                                <img src="{{Config::get('app.url')}}/public/img/msg_icon.png" width="30"/>
+                              </a>
                             </li>
 
                             <li>
-                                <a href="{{url('/friends')}}"> <i class="fa fa-users
-                                   fa-2x" aria-hidden="true"></i></a>
+                                <a href="{{url('/friends')}}" title="friends">
+                                  <img src="{{Config::get('app.url')}}/public/img/friends.png" width="30"/>
+                                 </a>
                             </li>
 
                                <li class="dropdown">
@@ -163,5 +163,10 @@
         </div>
 
         <script src="<?php echo Config::get('app.url');?>/public/js/profile.js"></script>
+        <script type="text/javascript">
+               $(document).ready(function() {
+                   $('#tooltip1').tooltip();
+               });
+               </script>
 </body>
 </html>

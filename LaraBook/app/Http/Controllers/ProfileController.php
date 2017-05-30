@@ -35,6 +35,53 @@ class ProfileController extends Controller {
         return back();
     }
 
+    public function setToken(Request $request){
+     $email = $request->email_address;
+     //check any user have this email address
+     $checkEmail = DB::table('users')->where('email',$email)->get();
+     if(count($checkEmail)==0){
+       echo "wrong email address";
+     }else{
+       $randomNumber = rand(1,500);
+         $token_sl = bcrypt($randomNumber);
+         $token = stripslashes($token_sl);
+
+         $insert_token = DB::table('password_resets')->insert(['email' =>$email, 'token'=>$token,
+       'created_at'=>\Carbon\Carbon::now()->toDateTimeString()]);
+
+       //echo "send reset link to this email address";
+       $baseUrl = 'http://hardeepcoder.com/laravel/larabook/getToken/'.$token;
+        $to = $email;
+        $subject = "Password reset Link";
+        $message = "<a href='$baseUrl'>$token</a>";
+        // Always set content-type when sending HTML email
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+        // More headers
+        $headers .= 'From: <admin@larabook.com>' . "\r\n";
+
+        mail($to,$subject,$message,$headers);
+
+     }
+
+    }
+
+    public function setPass(Request $request){
+      $email = $request->email;
+      $pass = $request->pass;
+      $cpass = $request->confrim_pass;
+      if($pass == $cpass){
+        //update the pass for this user
+      DB::table('users')->where('email',$email)->update(['password' =>bcrypt($pass)]);
+      return back();
+      }
+      else{
+        echo "passwords not matched";
+      }
+
+    }
+
     public function editProfileForm() {
         return view('profile.editProfile')->with('data', Auth::user()->profile);
     }
@@ -50,7 +97,9 @@ class ProfileController extends Controller {
     public function findFriends() {
 
         $uid = Auth::user()->id;
-        $allUsers = DB::table('profiles')->leftJoin('users', 'users.id', '=', 'profiles.user_id')->where('users.id', '!=', $uid)->get();
+        $allUsers = DB::table('profiles')
+        ->leftJoin('users', 'users.id', '=', 'profiles.user_id')
+        ->where('users.id', '!=', $uid)->get();
 
         return view('profile.findFriends', compact('allUsers'));
     }
@@ -67,7 +116,7 @@ class ProfileController extends Controller {
 
         $FriendRequests = DB::table('friendships')
                         ->rightJoin('users', 'users.id', '=', 'friendships.requester')
-                        ->orWhere('status', '=', Null)
+                        ->where('status', '=', Null)
                         ->where('friendships.user_requested', '=', $uid)->get();
 
 
@@ -147,17 +196,38 @@ class ProfileController extends Controller {
                 ->orderBy('notifcations.created_at', 'desc')
                 ->get();
 
-
         $updateNoti = DB::table('notifcations')
                      ->where('notifcations.id', $id)
                     ->update(['status' => 0]);
 
-
-
        return view('profile.notifcations', compact('notes'));
     }
 
+    public  function sendMessage(Request $request){
+      $conID = $request->conID;
+      $msg = $request->msg;
 
+      // fetch user_to
+      $fetch_userTo = DB::table('messages')->where('conversation_id', $conID)
+      ->where('user_to', '!=', Auth::user()->id)
+      ->get();
+        $userTo = $fetch_userTo[0]->user_to;
 
+        // now send message
+        $sendM = DB::table('messages')->insert([
+          'user_to' => $userTo,
+          'user_from' => Auth::user()->id,
+          'msg' => $msg,
+          'status' => 1,
+          'conversation_id' => $conID
+        ]);
+        if($sendM){
 
+          $userMsg = DB::table('messages')
+          ->join('users', 'users.id','messages.user_from')
+          ->where('messages.conversation_id', $conID)->get();
+          return $userMsg;
+
+        }
+    }
 }
