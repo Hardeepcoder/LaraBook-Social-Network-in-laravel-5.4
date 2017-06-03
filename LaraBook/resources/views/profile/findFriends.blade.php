@@ -7,7 +7,7 @@
     <ol class="breadcrumb">
         <li><a href="{{url('/home')}}">Home</a></li>
         <li><a href="{{url('/profile')}}/{{Auth::user()->slug}}">Profile</a></li>
-        <li><a href="">Edit Profile</a></li>
+        <li><a href="">Find Friends</a></li>
     </ol>
 
 

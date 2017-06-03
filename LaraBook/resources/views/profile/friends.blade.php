@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
         <li><a href="{{url('/home')}}">Home</a></li>
         <li><a href="{{url('/profile')}}/{{Auth::user()->slug}}">Profile</a></li>
-        <li><a href="">Edit Profile</a></li>
+        <li><a href="">Friends</a></li>
     </ol>
 
 
@@ -34,10 +34,8 @@
 
                             <div class="col-md-7 pull-left">
                                 <h3 style="margin:0px;"><a href="">{{ucwords($uList->name)}}</a></h3>
-
                                 <p><b>Gender:</b> {{$uList->gender}}</p>
                                    <p><b>Email:</b> {{$uList->email}}</p>
-
                             </div>
 
                             <div class="col-md-3 pull-right">

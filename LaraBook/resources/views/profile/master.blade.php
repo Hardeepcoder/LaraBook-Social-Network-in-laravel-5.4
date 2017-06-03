@@ -12,7 +12,11 @@
 
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-
+<style>
+.left-sidebar li { padding:10px;
+  border-bottom:1px solid #ddd;
+list-style:none; margin-left:-20px
+</style>
     </head>
     <body>
         <div id="app">
@@ -88,7 +92,6 @@
                                    $notes = DB::table('users')
                                         ->leftJoin('notifcations', 'users.id', 'notifcations.user_logged')
                                     ->where('user_hero', Auth::user()->id)
-                                        //   ->where('status', 1) //unread noti
                                            ->orderBy('notifcations.created_at', 'desc')
                                     ->get();
                                    ?>

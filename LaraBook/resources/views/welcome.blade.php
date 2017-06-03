@@ -73,8 +73,15 @@
               border:none;
               height:120px
             }
-        </style>
+            .likeBtn{
+              color: #4b4f56; font-weight:bold
+            }
+            .left-sidebar li { padding:10px;
+              border-bottom:1px solid #ddd;
+            list-style:none; margin-left:-20px}
 
+        </style>
+<script src="https://use.fontawesome.com/595a5020bd.js"></script>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -92,12 +99,40 @@
 
 <div class="col-md-12"  id="app">
 
-  <div class="col-md-2 left-sidebar">
-   <h3 align="center">Left Sidebar</h3>
-   <hr>
+  <div class="col-md-3 left-sidebar hidden-xs hidden-sm">
+@if(Auth::check())
+   <ul>
+     <li>
+       <a href="{{ url('/profile') }}/{{Auth::user()->slug}}"> <img src="{{Config::get('app.url')}}/public/img/{{Auth::user()->pic}}"
+       width="32" style="margin:5px"  />
+       {{Auth::user()->name}}</a>
+     </li>
+     <li>
+       <a href="{{url('/')}}"> <img src="{{Config::get('app.url')}}/public/img/news_feed.png"
+       width="32" style="margin:5px"  />
+       News Feed</a>
+     </li>
+     <li>
+       <a href="{{url('/friends')}}"> <img src="{{Config::get('app.url')}}/public/img/friends.png"
+       width="32" style="margin:5px"  />
+       Friends </a>
+     </li>
+     <li>
+       <a href="{{url('/messages')}}"> <img src="{{Config::get('app.url')}}/public/img/msg.png"
+       width="32" style="margin:5px"  />
+      Messages</a>
+     </li>
+     <li>
+       <a href="{{url('/findFriends')}}"> <img src="{{Config::get('app.url')}}/public/img/friends.png"
+       width="32" style="margin:5px"  />
+      Find Friends</a>
+     </li>
+   </ul>
+   @endif
+
   </div>
 
-  <div class="col-md-7 center-con">
+  <div class="col-md-6 col-sm-12 col-xs-12 center-con">
   @if(Auth::check())
       <div class="posts_div">
          <div class="head_har">
@@ -123,8 +158,9 @@
       @endif
           <div class="posts_div">
              <div class="head_har">  Posts</div>
+
              <div v-for="post in posts">
-              <div class="col-md-12" style="background-color:#fff">
+              <div class="col-md-12 col-sm-12 col-xs-12" style="background-color:#fff">
                   <div class="col-md-2 pull-left">
                     <img :src="'{{Config::get('app.url')}}/public/img/' + post.pic"
                     style="width:70px; margin:5px">
@@ -139,14 +175,18 @@
                   </div>
 
                   <p class="col-md-12" style="color:#333" > @{{post.content}}</p>
+                  <div style="padding:10px; border-top:1px solid #ddd" class="col-md-12">
 
+                </a>
+
+                  </div>
                 </div>
 
             </div>
           </div>
       </div>
 
-  <div class="col-md-3 right-sidebar" >
+  <div class="col-md-3 right-sidebar hidden-sm hidden-xs" >
       <h3 align="center">Right Sidebar</h3>
       <hr>
    </div>
@@ -163,7 +203,7 @@ $(document).ready(function(){
 $('#postBtn').hide();
  $("#postText").hover(function() {
  $('#postBtn').show();
- $('#postText').animate({ 'zoom': currentZoom += .5 }, 'slow');
+
  });
 
 });

@@ -1,4 +1,6 @@
 <?php
+Route::get('newMessage','ProfileController@newMessage');
+Route::post('sendNewMessage', 'ProfileController@sendNewMessage');
 
 Route::post('/sendMessage', 'ProfileController@sendMessage');
 

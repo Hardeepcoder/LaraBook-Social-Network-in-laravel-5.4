@@ -8,7 +8,10 @@ const app = new Vue({
    privsteMsgs: [],
    singleMsgs: [],
    msgFrom: '',
-   conID: ''
+   conID: '',
+   friend_id: '',
+   seen: false,
+   newMsgFrom: ''
 
  },
 
@@ -68,6 +71,23 @@ const app = new Vue({
             });
 
      }
+   },
+
+   friendID: function(id){
+     app.friend_id = id;
+   },
+   sendNewMsg(){
+     axios.post('http://localhost/larabook/index.php/sendNewMessage', {
+            friend_id: this.friend_id,
+            msg: this.newMsgFrom,
+          })
+          .then(function (response) {
+            console.log(response.data); // show if success
+
+          })
+          .catch(function (error) {
+            console.log(error); // run if we have error
+          });
    }
 
  }
