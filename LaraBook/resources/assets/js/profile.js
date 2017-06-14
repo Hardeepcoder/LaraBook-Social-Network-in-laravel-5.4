@@ -3,7 +3,7 @@ require('./bootstrap');
 const app = new Vue({
     el: '#app',
     data: {
-   msg: 'i am from new:',
+   msg: 'Click on user from left side:',
    content: '',
    privsteMsgs: [],
    singleMsgs: [],
@@ -83,6 +83,10 @@ const app = new Vue({
           })
           .then(function (response) {
             console.log(response.data); // show if success
+            if(response.status===200){
+              window.location.replace('http://localhost/larabook/index.php/messages');
+              app.msg = 'your message has been sent successfully';
+            }
 
           })
           .catch(function (error) {

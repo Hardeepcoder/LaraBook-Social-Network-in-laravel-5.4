@@ -2,10 +2,18 @@
 
 @section('content')
 
-<div class="col-md-12" >
+<div class="col-md-12 msgDiv" >
 
   <div style="background-color:#fff" class="col-md-3 pull-left">
-   <h3 align="center">Click on User</h3>
+
+    <div class="row" style="padding:10px">
+
+       <div class="col-md-7">Friend List</div>
+       <div class="col-md-5 pull-right">
+         <a href="{{url('/messages')}}" class="btn btn-sm btn-info">All messages</a>
+       </div>
+    </div>
+
    @foreach($friends as $friend)
 
    <li @click="friendID({{$friend->id}})" v-on:click="seen = true" style="list-style:none;
@@ -18,6 +26,7 @@
 
       <div class="col-md-9 pull-left" style="margin-top:5px">
         <b> {{$friend->name}}</b><br>
+        <small>Gender: {{$friend->gender}}</small>
      </div>
    </li>
    @endforeach
@@ -29,7 +38,7 @@
   <div style="background-color:#fff; min-height:600px; border-left:5px solid #F5F8FA"
    class="col-md-6">
    <h3 align="center">Messages</h3>
-
+<p class="alert alert-success">@{{msg}}</p>
 
    <div  v-if="seen">
       <input type="text" v-model="friend_id">

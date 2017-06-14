@@ -15,7 +15,10 @@
 <style>
 .left-sidebar li { padding:10px;
   border-bottom:1px solid #ddd;
-list-style:none; margin-left:-20px
+list-style:none; margin-left:-20px}
+.msgDiv li:hover{
+  cursor:pointer;
+}
 </style>
     </head>
     <body>
