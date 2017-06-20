@@ -134,6 +134,13 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
 });
+Route::group(['prefix' => 'company', 'middleware' => ['auth', 'company']], function () {
+ Route::get('/','companyController@index');
+});
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
+ Route::get('/','adminController@index');
+});
 
 
 Route::get('/logout', 'Auth\LoginController@logout');

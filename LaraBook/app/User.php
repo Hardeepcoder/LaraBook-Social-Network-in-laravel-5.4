@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable {
 
     use Notifiable;
-    
+
     use Friendable;
 
     /**
@@ -26,6 +26,9 @@ class User extends Authenticatable {
      *
      * @var array
      */
+  public function isRole(){
+    return $this->role; // mysql table column
+  }
     protected $hidden = [
         'password', 'remember_token',
     ];
