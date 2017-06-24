@@ -133,9 +133,23 @@ Route::group(['middleware' => 'auth'], function () {
 
         });
 
+        //jobs for users
+        Route::get('jobs', 'ProfileController@jobs');
+        Route::get('job/{id}','ProfileController@job');
+
 });
 Route::group(['prefix' => 'company', 'middleware' => ['auth', 'company']], function () {
  Route::get('/','companyController@index');
+
+ Route::get('/addJob', function(){
+   return view('company.addJob');
+ });
+
+ Route::get('/jobs','companyController@viewJobs');
+
+ Route::post('addJobSubmit', 'companyController@addJobSubmit');
+
+
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {

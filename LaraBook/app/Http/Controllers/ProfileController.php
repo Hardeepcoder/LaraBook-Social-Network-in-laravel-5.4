@@ -295,7 +295,18 @@ class ProfileController extends Controller {
             'conversation_id' =>  $conID_new,
             'status' => 1
           ]);
-          
+
         }
+    }
+
+    public function jobs(){
+      $jobs = DB::table('jobs')->get();
+      return view('profile.jobs', compact('jobs'));
+    }
+
+    public function job($id){
+      $jobs = DB::table('jobs')->where('id',$id)
+      ->get();
+      return view('profile.job', compact('jobs'));
     }
 }

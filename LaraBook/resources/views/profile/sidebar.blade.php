@@ -31,6 +31,12 @@
                        width="32" style="margin:5px"  />
                       Find Friends</a>
                      </li>
+
+                     <li>
+                       <a href="{{url('/jobs')}}"> <img src="{{Config::get('app.url')}}/public/img/friends.png"
+                       width="32" style="margin:5px"  />
+                      Find Jobs</a>
+                     </li>
                    </ul>
                    @endif
             </div>
