@@ -88,6 +88,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
+                    <a href="{{url('jobs')}}" style="background-color:#283E4A; color:#fff; padding:5px 15px 5px 15px; border-radius:5px">Find Job</a>
                         <a href="{{ url('/home') }}">Dashboard</a>
                     @else
                         <a href="{{ url('/login') }}">Login</a>
@@ -129,7 +130,7 @@
      </li>
 
      <li>
-       <a href="{{url('/jobs')}}"> <img src="{{Config::get('app.url')}}/public/img/friends.png"
+       <a href="{{url('/jobs')}}"> <img src="{{Config::get('app.url')}}/public/img/jobs.png"
        width="32" style="margin:5px"  />
       Find Jobs</a>
      </li>

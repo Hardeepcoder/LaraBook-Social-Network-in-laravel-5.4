@@ -300,7 +300,9 @@ class ProfileController extends Controller {
     }
 
     public function jobs(){
-      $jobs = DB::table('jobs')->get();
+      $jobs = DB::table('jobs')
+      ->leftJoin('users','users.id','jobs.company_id')
+      ->get();
       return view('profile.jobs', compact('jobs'));
     }
 

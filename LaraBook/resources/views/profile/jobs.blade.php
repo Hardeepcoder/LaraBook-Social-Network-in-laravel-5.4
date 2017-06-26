@@ -17,32 +17,37 @@
 
         <div class="col-md-9">
             <div class="panel panel-default">
-                <div class="panel-heading">{{Auth::user()->name}}, may you interested in these Jobs
-                
-                </div>
+                <div class="panel-heading"><h4 style="font-weight:bold"><span style="color:green">{{ucwords(Auth::user()->name)}}</span>, Jobs you may be interested in</h4>Any location Selected industries:  Any industry Selected company size range:  1 to 1,000 employees         </div>
 
                 <div class="panel-body">
-                    <div class="col-sm-12 col-md-12">
                          @if ( session()->has('msg') )
                          <p class="alert alert-success">
                                       {{ session()->get('msg') }}
                                    </p>
                                 @endif
                         @foreach($jobs as $job)
-
-
-                          <div class="col-md-12 myJobs">
-                          <a href="{{url('job')}}/{{$job->id}}">
-                            <div class="thumbnail">
+                        <a href="{{url('job')}}/{{$job->id}}">
+                          <div class="jobDiv">
+                      <img src="{{Config::get('app.url')}}/public/img/{{$job->pic}}" alt="Lights" class="img-circle" style="width:50px; height:50px; margin:5px">
                                 <div class="caption">
-                                  <p>{{$job->job_title}}</p>
+                                <li>  <i class="fa fa-briefcase" aria-hidden="true"></i> {{$job->job_title}}
+                                </li>
+                                <li><i class="fa fa-building-o" aria-hidden="true"></i> {{ucwords($job->name)}}
+                                </li>
+                              </a>
+                                <li> <?php $skills = explode(',',$job->skills)?>
+                                @foreach($skills as $skill)
+                                <div style="background-color:#283E4A; color:#fff; margin-top:5px; border-radius:10px; width:100%; float:left; padding:3px 15px 3px 15px">{{$skill}}</div>
 
+                                @endforeach
+                                  <a href="" style="margin-top:10px; width:100%" class="btn btn-primary">View details</a>
+                                </li>
                                 </div>
-                            </div>
-                            </a>
-                            </div>
+                          </div>
 
-                        </div>
+
+
+
                         @endforeach
                     </div>
 

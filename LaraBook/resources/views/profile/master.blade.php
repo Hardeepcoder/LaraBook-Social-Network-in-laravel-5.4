@@ -19,6 +19,8 @@ list-style:none; margin-left:-20px}
 .msgDiv li:hover{
   cursor:pointer;
 }
+.jobDiv{border:1px solid #ddd; margin:10px; width:30%; float:left; padding:10px; color:#000}
+.caption li {list-style:none !important; padding:5px}
 </style>
     </head>
     <body>
@@ -55,7 +57,7 @@ list-style:none; margin-left:-20px}
                                        font-size:16px">({{App\friendships::where('status', Null)
                                                   ->where('user_requested', Auth::user()->id)
                                                   ->count()}})</span></a></li>
-
+                        <li>  <a href="{{url('jobs')}}"  style="background-color:#283E4A; color:#fff; padding:5px 15px 5px 15px; border-radius:5px; margin:8px">Find Job</a></li>
                             @endif
                         </ul>
 

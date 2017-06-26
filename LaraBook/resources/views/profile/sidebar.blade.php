@@ -33,7 +33,7 @@
                      </li>
 
                      <li>
-                       <a href="{{url('/jobs')}}"> <img src="{{Config::get('app.url')}}/public/img/friends.png"
+                       <a href="{{url('/jobs')}}"> <img src="{{Config::get('app.url')}}/public/img/jobs.png"
                        width="32" style="margin:5px"  />
                       Find Jobs</a>
                      </li>
