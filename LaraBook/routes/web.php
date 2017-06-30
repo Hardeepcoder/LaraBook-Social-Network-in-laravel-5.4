@@ -15,9 +15,9 @@ Route::get('/', function () {
 
 Route::get('/posts', function () {
   $posts_json = DB::table('users')
-  ->leftJoin('profiles', 'profiles.user_id','users.id')
-  ->leftJoin('posts',  'posts.user_id' , 'users.id')
-  ->orderBy('posts.created_at', 'desc')->take(2)
+  ->rightJoin('profiles', 'profiles.user_id','users.id')
+  ->rightJoin('posts',  'posts.user_id' , 'users.id')
+  ->orderBy('posts.created_at', 'desc')
   ->get();
     return $posts_json;
 });

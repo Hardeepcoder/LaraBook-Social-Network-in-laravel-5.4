@@ -14,11 +14,11 @@
                 background-color: #ddd;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
-                height: 100vh;
+
                 margin: 0;
             }
             .full-height {
-                height: 110vh;
+              margin-top:50px
             }
             .flex-center {
                 align-items: center;
@@ -32,6 +32,7 @@
                 position: absolute;
                 right: 10px;
                 top: 18px;
+
             }
             .content {
                 text-align: center;
@@ -61,20 +62,18 @@
             }
             .left-sidebar, .right-sidebar{
               background-color:#fff;
-              min-height:600px
+              min-height:100%
             }
-            .posts_div{
-              margin-bottom: 10px;
-            }
+
             .posts_div h3{
               margin-top:4px !important
             }
             #postText{
               border:none;
-              height:120px
+              height:100px
             }
             .likeBtn{
-              color: #4b4f56; font-weight:bold
+              color: #4b4f56; font-weight:bold; cursor: pointer;
             }
             .left-sidebar li { padding:10px;
               border-bottom:1px solid #ddd;
@@ -84,18 +83,19 @@
 <script src="https://use.fontawesome.com/595a5020bd.js"></script>
     </head>
     <body>
+      @if (Route::has('login'))
+          <div class="top-right links">
+              @if (Auth::check())
+              <a href="{{url('jobs')}}" style="background-color:#283E4A; color:#fff; padding:5px 15px 5px 15px; border-radius:5px">Find Job</a>
+                  <a href="{{ url('/home') }}">Dashboard</a>
+              @else
+                  <a href="{{ url('/login') }}">Login</a>
+                  <a href="{{ url('/register') }}">Register</a>
+              @endif
+          </div>
+      @endif
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                    <a href="{{url('jobs')}}" style="background-color:#283E4A; color:#fff; padding:5px 15px 5px 15px; border-radius:5px">Find Job</a>
-                        <a href="{{ url('/home') }}">Dashboard</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
-                </div>
-            @endif
+
 
 
 <div class="col-md-12"  id="app">
@@ -155,8 +155,7 @@
                 <form method="post" enctype="multipart/form-data" v-on:submit.prevent="addPost">
                 <textarea v-model="content" id="postText" class="form-control"
                 placeholder="what's on your mind ?"></textarea>
-                <button type="submit" class="btn btn-sm btn-info pull-right" style="margin:10px"
-                 id="postBtn">Post</button>
+                <button type="submit" class="btn btn-sm btn-info pull-right" style="margin:10px" id="postBtn">Post</button>
                 </form>
               </div>
             </div>
@@ -164,17 +163,23 @@
       </div>
       @endif
           <div class="posts_div">
-             <div class="head_har">  Posts</div>
+             <!--<div class="head_har">  Posts</div> -->
 
              <div v-for="post in posts">
-              <div class="col-md-12 col-sm-12 col-xs-12" style="background-color:#fff">
+              <div class="col-md-12 col-sm-12 col-xs-12" style="background-color:#fff; margin-top:10px; padding-top:10px">
                   <div class="col-md-2 pull-left">
-                    <img :src="'{{Config::get('app.url')}}/public/img/' + post.pic"
-                    style="width:70px; margin:5px">
+                    <img :src="'{{Config::get('app.url')}}/public/img/' + post.pic" style="width:70px; margin:5px">
                   </div>
 
-                  <div class="col-md-10">
-                  <h3 > @{{post.name}}</h3>
+              <div class="col-md-10">
+              <div class="row">
+               <div class="col-md-9"><h3> @{{post.name}} </h3></div>
+               <div class="col-md-3" style="text-align:right">
+                 
+              <p class="likeBtn"><i class="fa fa-times"></i> Delete</p>
+               </div>
+              </div>
+
                   <p> <i class="fa fa-globe"></i>
                     @{{post.city}} | @{{post.country}}</p>
                     <small><b>Gender:</b> @{{post.gender}}</small><br>
@@ -183,9 +188,7 @@
 
                   <p class="col-md-12" style="color:#333" > @{{post.content}}</p>
                   <div style="padding:10px; border-top:1px solid #ddd" class="col-md-12">
-
-                </a>
-
+                  <p class="likeBtn" @click="likePost()"><i class="fa fa-thumbs-up"></i> Like</p>
                   </div>
                 </div>
 

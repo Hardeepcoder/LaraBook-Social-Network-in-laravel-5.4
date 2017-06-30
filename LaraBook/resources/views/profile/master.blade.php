@@ -21,6 +21,12 @@ list-style:none; margin-left:-20px}
 }
 .jobDiv{border:1px solid #ddd; margin:10px; width:30%; float:left; padding:10px; color:#000}
 .caption li {list-style:none !important; padding:5px}
+.jobDiv .company_pic{width:50px; height:50px; margin:5px}
+.jobDetails h4{border:1px solid green; width:60%;
+padding:5px; margin:0 auto; text-align:center; color:green}
+.jobDetails .job_company{padding-bottom:10px; border-bottom:1px solid #ddd; margin-top:20px}
+.jobDetails .job_point{color:green; font-weight:bold}
+.jobDetails .email_link{padding:5px; border:1px solid green; color:green}
 </style>
     </head>
     <body>
