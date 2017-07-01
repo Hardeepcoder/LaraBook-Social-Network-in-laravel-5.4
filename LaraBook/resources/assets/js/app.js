@@ -20,8 +20,6 @@ const app = new Vue({
    content: '',
    posts: [],
    postId: '',
-
-
  },
 
  ready: function(){
@@ -58,6 +56,9 @@ const app = new Vue({
           .catch(function (error) {
             console.log(error); // run if we have error
           });
+   },
+   likePost(id){
+     alert(id);
    }
  }
 

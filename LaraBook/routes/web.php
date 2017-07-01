@@ -6,9 +6,9 @@ Route::post('/sendMessage', 'ProfileController@sendMessage');
 
 Route::get('/', function () {
   $posts = DB::table('users')
-  ->leftJoin('profiles', 'profiles.user_id','users.id')
-  ->leftJoin('posts',  'posts.user_id' , 'users.id')
-  ->orderBy('posts.created_at', 'desc')->take(2)
+  ->rightJoin('profiles', 'profiles.user_id','users.id')
+  ->rightJoin('posts',  'posts.user_id' , 'users.id')
+  ->orderBy('posts.created_at', 'desc')
   ->get();
     return view('welcome', compact('posts'));
 });
@@ -136,6 +136,7 @@ Route::group(['middleware' => 'auth'], function () {
         //jobs for users
         Route::get('jobs', 'ProfileController@jobs');
         Route::get('job/{id}','ProfileController@job');
+
 
 });
 Route::group(['prefix' => 'company', 'middleware' => ['auth', 'company']], function () {

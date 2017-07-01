@@ -88,6 +88,7 @@
               @if (Auth::check())
               <a href="{{url('jobs')}}" style="background-color:#283E4A; color:#fff; padding:5px 15px 5px 15px; border-radius:5px">Find Job</a>
                   <a href="{{ url('/home') }}">Dashboard</a>
+                    <a href="{{ url('/logout') }}">Logout</a>
               @else
                   <a href="{{ url('/login') }}">Login</a>
                   <a href="{{ url('/register') }}">Register</a>
@@ -175,8 +176,9 @@
               <div class="row">
                <div class="col-md-9"><h3> @{{post.name}} </h3></div>
                <div class="col-md-3" style="text-align:right">
-                 
-              <p class="likeBtn"><i class="fa fa-times"></i> Delete</p>
+                    @if(Auth::check())<div  v-if="post.user_id == '{{Auth::user()->id}}'">
+                    <p class="likeBtn"><i class="fa fa-times"></i> Delete</p>
+                  </div>@endif
                </div>
               </div>
 
@@ -188,7 +190,11 @@
 
                   <p class="col-md-12" style="color:#333" > @{{post.content}}</p>
                   <div style="padding:10px; border-top:1px solid #ddd" class="col-md-12">
-                  <p class="likeBtn" @click="likePost()"><i class="fa fa-thumbs-up"></i> Like</p>
+
+                  <p class="likeBtn" @click="likePost(post.id)">
+                    <i class="fa fa-thumbs-up"></i> Like
+                  </p>
+
                   </div>
                 </div>
 
