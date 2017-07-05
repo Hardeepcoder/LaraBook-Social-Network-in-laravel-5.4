@@ -1,26 +1,31 @@
 <?php
+
 Route::get('newMessage','ProfileController@newMessage');
 Route::post('sendNewMessage', 'ProfileController@sendNewMessage');
 
 Route::post('/sendMessage', 'ProfileController@sendMessage');
 
 Route::get('/', function () {
-  $posts = DB::table('users')
+  $posts =  DB::table('users')
   ->rightJoin('profiles', 'profiles.user_id','users.id')
-  ->rightJoin('posts',  'posts.user_id' , 'users.id')
-  ->orderBy('posts.created_at', 'desc')
+  ->rightJoin('posts', 'posts.user_id' , 'users.id')
+  ->orderBy('posts.id', 'desc')
   ->get();
-    return view('welcome', compact('posts'));
+
+  return view('welcome', compact('posts'));
 });
 
 Route::get('/posts', function () {
   $posts_json = DB::table('users')
   ->rightJoin('profiles', 'profiles.user_id','users.id')
   ->rightJoin('posts',  'posts.user_id' , 'users.id')
-  ->orderBy('posts.created_at', 'desc')
+  ->orderBy('posts.id', 'desc')
   ->get();
-    return $posts_json;
+      return $posts_json;
 });
+
+
+
 
 Route::post('addPost', 'PostsController@addPost');
 
@@ -137,7 +142,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('jobs', 'ProfileController@jobs');
         Route::get('job/{id}','ProfileController@job');
 
-
+        // delete post
+        Route::get('/deletePost/{id}','PostsController@deletePost');
 });
 Route::group(['prefix' => 'company', 'middleware' => ['auth', 'company']], function () {
  Route::get('/','companyController@index');

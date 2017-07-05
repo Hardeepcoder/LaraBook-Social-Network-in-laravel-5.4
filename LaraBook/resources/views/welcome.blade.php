@@ -1,3 +1,4 @@
+
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -14,7 +15,6 @@
                 background-color: #ddd;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
-
                 margin: 0;
             }
             .full-height {
@@ -78,6 +78,14 @@
             .left-sidebar li { padding:10px;
               border-bottom:1px solid #ddd;
             list-style:none; margin-left:-20px}
+            .dropdown-menu{min-width:120px; left:-30px}
+            .dropdown-menu a{ cursor: pointer;}
+            .dropdown-divider {
+              height: 1px;
+              margin: .5rem 0;
+              overflow: hidden;
+              background-color: #eceeef;}
+
 
         </style>
 <script src="https://use.fontawesome.com/595a5020bd.js"></script>
@@ -86,8 +94,11 @@
       @if (Route::has('login'))
           <div class="top-right links">
               @if (Auth::check())
-              <a href="{{url('jobs')}}" style="background-color:#283E4A; color:#fff; padding:5px 15px 5px 15px; border-radius:5px">Find Job</a>
-                  <a href="{{ url('/home') }}">Dashboard</a>
+              <a href="{{url('jobs')}}" style="background-color:#283E4A;
+              color:#fff; padding:5px 15px 5px 15px; border-radius:5px">Find Job</a>
+                  <a href="{{ url('/home') }}">Dashboard
+                (<span style="text-transform:capitalize;
+                color:green">{{ucwords(Auth::user()->name)}}</span>)</a>
                     <a href="{{ url('/logout') }}">Logout</a>
               @else
                   <a href="{{ url('/login') }}">Login</a>
@@ -100,6 +111,7 @@
 
 
 <div class="col-md-12"  id="app">
+
 
   <div class="col-md-3 left-sidebar hidden-xs hidden-sm">
 @if(Auth::check())
@@ -167,18 +179,33 @@
              <!--<div class="head_har">  Posts</div> -->
 
              <div v-for="post in posts">
-              <div class="col-md-12 col-sm-12 col-xs-12" style="background-color:#fff; margin-top:10px; padding-top:10px">
+
+              <div class="col-md-12 col-sm-12 col-xs-12"
+              style="background-color:#fff; margin-top:10px; padding-top:10px">
                   <div class="col-md-2 pull-left">
-                    <img :src="'{{Config::get('app.url')}}/public/img/' + post.pic" style="width:70px; margin:5px">
+                    <img :src="'{{Config::get('app.url')}}/public/img/' + post.pic"
+                    style="width:70px; margin:5px">
                   </div>
 
               <div class="col-md-10">
               <div class="row">
                <div class="col-md-9"><h3> @{{post.name}} </h3></div>
                <div class="col-md-3" style="text-align:right">
-                    @if(Auth::check())<div  v-if="post.user_id == '{{Auth::user()->id}}'">
-                    <p class="likeBtn"><i class="fa fa-times"></i> Delete</p>
-                  </div>@endif
+                 @if(Auth::check())
+                  <!-- delete button goes here -->
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true">V</a>
+
+                  <div class="dropdown-menu">
+                    <li><a>some action here</a></li>
+                    <li><a>some more action</a></li>
+                    <div class="dropdown-divider"></div>
+                    <li v-if="post.user_id == '{{Auth::user()->id}}'">
+                      <a @click="deletePost(post.id)">
+                        <i class="fa fa-trash"></i> Delete</a>
+                      </li>
+                  </div>
+                  @endif
+
                </div>
               </div>
 
@@ -190,12 +217,9 @@
 
                   <p class="col-md-12" style="color:#333" > @{{post.content}}</p>
                   <div style="padding:10px; border-top:1px solid #ddd" class="col-md-12">
+                    <!-- like button goes here -->
 
-                  <p class="likeBtn" @click="likePost(post.id)">
-                    <i class="fa fa-thumbs-up"></i> Like
-                  </p>
-
-                  </div>
+                    </div>
                 </div>
 
             </div>

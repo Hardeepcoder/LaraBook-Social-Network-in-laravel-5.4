@@ -20,6 +20,9 @@ const app = new Vue({
    content: '',
    posts: [],
    postId: '',
+   successMsg: '',
+
+
  },
 
  ready: function(){
@@ -35,6 +38,7 @@ const app = new Vue({
         .catch(function (error) {
           console.log(error); // run if we have error
         });
+
  },
 
 
@@ -57,9 +61,18 @@ const app = new Vue({
             console.log(error); // run if we have error
           });
    },
-   likePost(id){
-     alert(id);
+
+   deletePost(id){
+     axios.get('http://localhost/larabook/index.php/deletePost/' + id)
+          .then(response => {
+            console.log(response); // show if success
+            this.posts = response.data; //we are putting data into our posts array
+          })
+          .catch(function (error) {
+            console.log(error); // run if we have error
+          });
    }
+
  }
 
 });
