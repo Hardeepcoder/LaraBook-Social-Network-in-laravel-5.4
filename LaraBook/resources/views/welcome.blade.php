@@ -1,4 +1,3 @@
-
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -6,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Laravel</title>
-  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <!-- Fonts -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <script src="https://use.fontawesome.com/595a5020bd.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 
         <!-- Styles -->
         <style>
@@ -64,9 +64,10 @@
               background-color:#fff;
               min-height:100%
             }
-
+            .posts_div{margin-bottom:10px !important}
             .posts_div h3{
-              margin-top:4px !important
+              margin-top:4px !important;
+
             }
             #postText{
               border:none;
@@ -85,10 +86,17 @@
               margin: .5rem 0;
               overflow: hidden;
               background-color: #eceeef;}
+              .user_name{font-size:18px;
+               font-weight:bold; text-transform:capitalize; margin:3px}
+              .all_posts{background-color:#fff; padding:15px;
+               margin-bottom:15px; border-radius:5px;
+                -webkit-box-shadow: 0 8px 6px -6px #666;
+  	            -moz-box-shadow: 0 8px 6px -6px #666;
+  	             box-shadow: 0 8px 6px -6px #666;}
 
 
         </style>
-<script src="https://use.fontawesome.com/595a5020bd.js"></script>
+
     </head>
     <body>
       @if (Route::has('login'))
@@ -162,7 +170,7 @@
             <div class="row">
               <div class="col-md-1 pull-left">
                 <img src="{{url('../')}}/public/img/{{Auth::user()->pic}}"
-                 style="width:50px; margin:10px" class="img-rounded">
+                 style="width:50px; margin:5px; padding:5px" class="img-rounded">
               </div>
               <div class="col-md-11 pull-right">
                 <form method="post" enctype="multipart/form-data" v-on:submit.prevent="addPost">
@@ -175,26 +183,29 @@
           </div>
       </div>
       @endif
-          <div class="posts_div">
+          <div class="">
              <!--<div class="head_har">  Posts</div> -->
 
              <div v-for="post in posts">
-
-              <div class="col-md-12 col-sm-12 col-xs-12"
-              style="background-color:#fff; margin-top:10px; padding-top:10px">
-                  <div class="col-md-2 pull-left">
-                    <img :src="'{{Config::get('app.url')}}/public/img/' + post.pic"
-                    style="width:70px; margin:5px">
+              <div class="col-md-12 col-sm-12 col-xs-12 all_posts">
+                  <div class="col-md-1 pull-left">
+                    <img :src="'{{Config::get('app.url')}}/public/img/' + post.user.pic"
+                    style="width:50px;">
                   </div>
 
-              <div class="col-md-10">
+              <div class="col-md-10" style="margin-left:10px">
               <div class="row">
-               <div class="col-md-9"><h3> @{{post.name}} </h3></div>
-               <div class="col-md-3" style="text-align:right">
+               <div class="col-md-11">
+                 <p><a :href="'{{url('profile')}}/' +  post.slug" class="user_name"> @{{post.user.name}}</a> <br>
+                 <span style="color:#AAADB3">  @{{ post.created_at | myOwnTime}}
+                 <i class="fa fa-globe"></i></span></p>
+               </div>
+               <div class="col-md-1 pull-right">
                  @if(Auth::check())
                   <!-- delete button goes here -->
-                  <a href="#" data-toggle="dropdown" aria-haspopup="true">V</a>
-
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true">
+                    <img src="{{Config::get('app.url')}}/public/img/settings.png" width="20">
+                  </a>
                   <div class="dropdown-menu">
                     <li><a>some action here</a></li>
                     <li><a>some more action</a></li>
@@ -205,20 +216,27 @@
                       </li>
                   </div>
                   @endif
-
                </div>
               </div>
 
-                  <p> <i class="fa fa-globe"></i>
-                    @{{post.city}} | @{{post.country}}</p>
-                    <small><b>Gender:</b> @{{post.gender}}</small><br>
-                    <small>@{{post.created_at}}</small>
+
                   </div>
 
-                  <p class="col-md-12" style="color:#333" > @{{post.content}}</p>
+                  <p class="col-md-12" style="color:#000; margin-top:15px; font-family:inherit" >
+                     @{{post.content}}
+                   </p>
                   <div style="padding:10px; border-top:1px solid #ddd" class="col-md-12">
                     <!-- like button goes here -->
-
+                    @if(Auth::check())
+                    <div v-for="like in likes">
+                      <div v-if="post.id==like.posts_id && like.user_id=='{{Auth::user()->id}}'">
+                        <p class="likeBtn" @click="likePost(post.id)">
+                          <i class="fa fa-thumbs-up"></i> Liked by you
+                        </p>
+                      </div>
+                    
+                    </div>
+                    @endif
                     </div>
                 </div>
 
@@ -228,7 +246,6 @@
 
   <div class="col-md-3 right-sidebar hidden-sm hidden-xs" >
       <h3 align="center">Right Sidebar</h3>
-      <hr>
    </div>
 
 

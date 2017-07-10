@@ -19,6 +19,7 @@ const app = new Vue({
    msg: 'Update New Post:',
    content: '',
    posts: [],
+   likes:[],
    postId: '',
    successMsg: '',
 
@@ -34,10 +35,25 @@ const app = new Vue({
         .then(response => {
           console.log(response); // show if success
           this.posts = response.data; //we are putting data into our posts array
+          Vue.filter('myOwnTime', function(value){
+            return moment(value).fromNow();
+          });
+
         })
         .catch(function (error) {
           console.log(error); // run if we have error
         });
+
+        // fetching likes
+        axios.get('http://localhost/larabook/index.php/likes')
+             .then(response => {
+               console.log(response); // show if success
+               this.likes = response.data; //we are putting data into our posts array
+
+             })
+             .catch(function (error) {
+               console.log(error); // run if we have error
+             });
 
  },
 
@@ -71,8 +87,19 @@ const app = new Vue({
           .catch(function (error) {
             console.log(error); // run if we have error
           });
+   },
+   likePost(id){
+     axios.get('http://localhost/larabook/index.php/likePost/' + id)
+          .then(response => {
+            console.log(response); // show if success
+            this.posts = response.data; //we are putting data into our posts array
+          })
+          .catch(function (error) {
+            console.log(error); // run if we have error
+          });
    }
 
- }
+ },
+
 
 });

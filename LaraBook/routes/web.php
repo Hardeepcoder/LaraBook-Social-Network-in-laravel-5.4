@@ -2,35 +2,40 @@
 
 Route::get('newMessage','ProfileController@newMessage');
 Route::post('sendNewMessage', 'ProfileController@sendNewMessage');
-
 Route::post('/sendMessage', 'ProfileController@sendMessage');
 
 Route::get('/', function () {
-  $posts =  DB::table('users')
+/*  $posts =  DB::table('users')
   ->rightJoin('profiles', 'profiles.user_id','users.id')
   ->rightJoin('posts', 'posts.user_id' , 'users.id')
-  ->orderBy('posts.id', 'desc')
+  ->orderBy('posts.created_at', 'desc')
   ->get();
-
+  return view('welcome', compact('posts'));
+  */
+  $posts = App\post::with('user')->orderBy('created_at','DESC')->get();
   return view('welcome', compact('posts'));
 });
 
 Route::get('/posts', function () {
-  $posts_json = DB::table('users')
+/*  $posts_json = DB::table('users')
   ->rightJoin('profiles', 'profiles.user_id','users.id')
   ->rightJoin('posts',  'posts.user_id' , 'users.id')
-  ->orderBy('posts.id', 'desc')
+  ->orderBy('posts.created_at', 'desc')
   ->get();
-      return $posts_json;
+      return $posts_json; */
+      return App\post::with('user')->orderBy('created_at','DESC')->get();
 });
-
-
-
 
 Route::post('addPost', 'PostsController@addPost');
 
+Route::get('/likes',function(){
+  return App\likes::all();
+});
+Route::get('/',function(){
+  $likes = App\likes::all();
+    return view('welcome', compact('likes'));
+});
 Auth::routes();
-
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -144,6 +149,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         // delete post
         Route::get('/deletePost/{id}','PostsController@deletePost');
+
+        //like post
+        Route::get('/likePost/{id}','PostsController@likePost');
 });
 Route::group(['prefix' => 'company', 'middleware' => ['auth', 'company']], function () {
  Route::get('/','companyController@index');

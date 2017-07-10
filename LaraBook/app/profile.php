@@ -12,4 +12,7 @@ class profile extends Model {
         return $this->belongsTo('App\User');
     }
 
+
+
+
 }
