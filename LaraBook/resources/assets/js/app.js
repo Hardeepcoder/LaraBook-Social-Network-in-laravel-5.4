@@ -19,12 +19,10 @@ const app = new Vue({
    msg: 'Update New Post:',
    content: '',
    posts: [],
-   likes:[],
    postId: '',
    successMsg: '',
-
-
- },
+   commentData:''
+  },
 
  ready: function(){
    this.created();
@@ -38,31 +36,14 @@ const app = new Vue({
           Vue.filter('myOwnTime', function(value){
             return moment(value).fromNow();
           });
-
         })
         .catch(function (error) {
           console.log(error); // run if we have error
-        });
-
-        // fetching likes
-        axios.get('http://localhost/larabook/index.php/likes')
-             .then(response => {
-               console.log(response); // show if success
-               this.likes = response.data; //we are putting data into our posts array
-
-             })
-             .catch(function (error) {
-               console.log(error); // run if we have error
-             });
-
+        });    
  },
 
-
  methods:{
-
    addPost(){
-
-     //alert('test function');
      axios.post('http://localhost/larabook/index.php/addPost', {
             content: this.content
           })
@@ -71,7 +52,6 @@ const app = new Vue({
             if(response.status===200){
               app.posts = response.data;
             }
-
           })
           .catch(function (error) {
             console.log(error); // run if we have error
@@ -97,9 +77,23 @@ const app = new Vue({
           .catch(function (error) {
             console.log(error); // run if we have error
           });
+   },    
+   addComment(id){
+	       axios.post('http://localhost/larabook/index.php/addComment', {
+            comment: this.commentData,
+			id: id
+          })
+          .then(function (response) {
+            console.log('saved successfully'); // show if success
+            if(response.status===200){
+              app.posts = response.data;
+            }
+          })
+          .catch(function (error) {
+            console.log(error); // run if we have error
+          });
+	   
    }
 
- },
-
-
+ }
 });

@@ -4,7 +4,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>LaraBook</title>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <script src="https://use.fontawesome.com/595a5020bd.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
@@ -94,7 +94,16 @@
   	            -moz-box-shadow: 0 8px 6px -6px #666;
   	             box-shadow: 0 8px 6px -6px #666;}
 
-
+#commentBox{
+  background-color:#ddd; 
+  padding:10px; 
+  width:99%; margin:0 auto;
+  background-color:#F6F7F9;  
+  padding:10px;
+  margin-bottom:10px
+}
+#commentBox li { list-style:none; padding:10px; border-bottom:1px solid #ddd}
+.commet_form{ padding:10px; margin-bottom:10px}
         </style>
 
     </head>
@@ -196,7 +205,7 @@
               <div class="col-md-10" style="margin-left:10px">
               <div class="row">
                <div class="col-md-11">
-                 <p><a :href="'{{url('profile')}}/' +  post.slug" class="user_name"> @{{post.user.name}}</a> <br>
+                 <p><a :href="'{{url('profile')}}/' +  post.user.slug" class="user_name"> @{{post.user.name}}</a> <br>
                  <span style="color:#AAADB3">  @{{ post.created_at | myOwnTime}}
                  <i class="fa fa-globe"></i></span></p>
                </div>
@@ -218,28 +227,44 @@
                   @endif
                </div>
               </div>
-
-
                   </div>
 
-                  <p class="col-md-12" style="color:#000; margin-top:15px; font-family:inherit" >
+                   <p class="col-md-12" style="color:#000; margin-top:15px; font-family:inherit">
                      @{{post.content}}
                    </p>
-                  <div style="padding:10px; border-top:1px solid #ddd" class="col-md-12">
-                    <!-- like button goes here -->
-                    @if(Auth::check())
-                    <div v-for="like in likes">
-                      <div v-if="post.id==like.posts_id && like.user_id=='{{Auth::user()->id}}'">
-                        <p class="likeBtn" @click="likePost(post.id)">
-                          <i class="fa fa-thumbs-up"></i> Liked by you
-                        </p>
-                      </div>
-                    
-                    </div>
-                    @endif
-                    </div>
-                </div>
+                  <div style="padding:10px; border-top:1px solid #ddd" class="col-md-12">                 
+                    <div class="col-md-4">
+                      @if(Auth::check())
+                      <p v-if="post.likes.length!=0" style="color:blue">
+                      <i class="fa fa-thumbs-up"></i>
+                      liked by <b style="color:green"> @{{post.likes.length}} </b> persons
+                     </p>
 
+                      <p v-else class="likeBtn" @click="likePost(post.id)">
+                        no one like <br>
+                        <i class="fa fa-thumbs-up"></i> Like
+                      </p>
+
+                      @endif
+                    </div>
+
+                    <div class="col-md-4">
+                     <p id="showComment">comment</p>
+                    </div>
+  
+                    </div>
+                      
+                </div>
+                <div id="commentBox">
+				<div class="commet_form">
+				<textarea class="form-control" v-model="commentData"></textarea>
+				<button class="btn btn-success" @click="addComment(post.id)">Send</button>
+				</div>
+				<ul v-for="comment in post.comments">
+				<li>@{{comment.comment}}</li>
+				</ul>
+				</div>
+                
             </div>
           </div>
       </div>
@@ -258,9 +283,8 @@
 $(document).ready(function(){
 
 $('#postBtn').hide();
- $("#postText").hover(function() {
- $('#postBtn').show();
-
+  $("#postText").hover(function() {
+  $('#postBtn').show();
  });
 
 });

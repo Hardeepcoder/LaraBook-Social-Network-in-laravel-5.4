@@ -1,93 +1,52 @@
 <?php
-
+Route::get('try',function(){
+	return App\post::with('user','likes','comments')->get();
+});
 Route::get('newMessage','ProfileController@newMessage');
 Route::post('sendNewMessage', 'ProfileController@sendNewMessage');
 Route::post('/sendMessage', 'ProfileController@sendMessage');
 
 Route::get('/', function () {
-/*  $posts =  DB::table('users')
-  ->rightJoin('profiles', 'profiles.user_id','users.id')
-  ->rightJoin('posts', 'posts.user_id' , 'users.id')
-  ->orderBy('posts.created_at', 'desc')
-  ->get();
+  $posts = App\post::with('user','likes','comments')->orderBy('created_at','DESC')->get();
   return view('welcome', compact('posts'));
-  */
-  $posts = App\post::with('user')->orderBy('created_at','DESC')->get();
-  return view('welcome', compact('posts'));
-});
+  });
 
 Route::get('/posts', function () {
-/*  $posts_json = DB::table('users')
-  ->rightJoin('profiles', 'profiles.user_id','users.id')
-  ->rightJoin('posts',  'posts.user_id' , 'users.id')
-  ->orderBy('posts.created_at', 'desc')
-  ->get();
-      return $posts_json; */
-      return App\post::with('user')->orderBy('created_at','DESC')->get();
+      return App\post::with('user','likes','comments')->orderBy('created_at','DESC')->get();
 });
 
 Route::post('addPost', 'PostsController@addPost');
-
-Route::get('/likes',function(){
-  return App\likes::all();
-});
-Route::get('/',function(){
-  $likes = App\likes::all();
-    return view('welcome', compact('likes'));
-});
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-
     Route::get('/home', 'HomeController@index');
     Route::get('/profile', 'HomeController@index');
-
-
     Route::get('/profile/{slug}', 'ProfileController@index');
-
     Route::get('/changePhoto', function() {
-
         return view('profile.pic');
     });
-
     Route::post('/uploadPhoto', 'ProfileController@uploadPhoto');
-
-
     Route::get('editProfile', 'ProfileController@editProfileForm');
-
     Route::post('/updateProfile', 'ProfileController@updateProfile');
-
     Route::get('/findFriends', 'ProfileController@findFriends');
-
     Route::get('/addFriend/{id}', 'ProfileController@sendRequest');
-
-
     Route::get('/requests', 'ProfileController@requests');
-
     Route::get('/accept/{name}/{id}', 'ProfileController@accept');
-
     Route::get('friends', 'ProfileController@friends');
-
     Route::get('requestRemove/{id}', 'ProfileController@requestRemove');
-
     Route::get('/notifications/{id}', 'ProfileController@notifications');
 
     Route::get('/unfriend/{id}', function($id){
-
-                $loggedUser = Auth::user()->id;
-
+             $loggedUser = Auth::user()->id;
               DB::table('friendships')
               ->where('requester', $loggedUser)
               ->where('user_requested', $id)
               ->delete();
-
               DB::table('friendships')
               ->where('user_requested', $loggedUser)
               ->where('requester', $id)
               ->delete();
-
-
-              return back()->with('msg', 'You are not friend with this person');
+               return back()->with('msg', 'You are not friend with this person');
         });
 
         //forgot password
@@ -103,13 +62,8 @@ Route::group(['middleware' => 'auth'], function () {
          $getData = DB::table('password_resets')->where('token',$token)->get();
          if(count($getData)!=0){
            return view('profile.setPassword')->with('data',$getData);
-
-         }else{
-           echo "token is wrong";
-         }
-        }else{
-          echo "token not found";
-        }
+         }else{echo "token is wrong";}
+        }else{echo "token not found";}
         });
 
 
@@ -130,28 +84,25 @@ Route::group(['middleware' => 'auth'], function () {
           $allUsers2 = DB::table('users')
           ->Join('conversation','users.id','conversation.user_two')
           ->where('conversation.user_one', Auth::user()->id)->get();
-
           return array_merge($allUsers1->toArray(), $allUsers2->toArray());
         });
 
         Route::get('/getMessages/{id}', function($id){
-
           $userMsg = DB::table('messages')
           ->join('users', 'users.id','messages.user_from')
           ->where('messages.conversation_id', $id)->get();
           return $userMsg;
-
         });
 
         //jobs for users
         Route::get('jobs', 'ProfileController@jobs');
         Route::get('job/{id}','ProfileController@job');
-
         // delete post
         Route::get('/deletePost/{id}','PostsController@deletePost');
-
         //like post
         Route::get('/likePost/{id}','PostsController@likePost');
+		//add comments
+		Route::post('addComment', 'PostsController@addComment');
 });
 Route::group(['prefix' => 'company', 'middleware' => ['auth', 'company']], function () {
  Route::get('/','companyController@index');
@@ -161,15 +112,10 @@ Route::group(['prefix' => 'company', 'middleware' => ['auth', 'company']], funct
  });
 
  Route::get('/jobs','companyController@viewJobs');
-
  Route::post('addJobSubmit', 'companyController@addJobSubmit');
-
-
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
  Route::get('/','adminController@index');
 });
-
-
 Route::get('/logout', 'Auth\LoginController@logout');

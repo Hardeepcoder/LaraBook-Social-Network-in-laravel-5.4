@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+use App\post;
+use App\comments;
 class PostsController extends Controller
 {
 
     public function index(){
-
       $posts = DB::table('posts')->get();
       return view('posts',compact('posts'));
     }
@@ -22,28 +22,46 @@ class PostsController extends Controller
         'status' =>0, 'created_at' =>\Carbon\Carbon::now()->toDateTimeString(), 'updated_at' => \Carbon\Carbon::now()->toDateTimeString() ]);
 
       if($createPost){
-        $posts_json = DB::table('users')
-        ->rightJoin('profiles', 'profiles.user_id','users.id')
-        ->rightJoin('posts',  'posts.user_id' , 'users.id')
-        ->orderBy('posts.id', 'desc')
-        ->get();
-          return $posts_json;
-
+        return post::with('user','likes','comments')->orderBy('created_at','DESC')->get();
       }
+
     }
 
     public function deletePost($id){
       $deletePost = DB::table('posts')->where('id',$id)->delete();
       if($deletePost){
-        $posts_json = DB::table('users')
-        ->rightJoin('profiles', 'profiles.user_id','users.id')
-        ->rightJoin('posts',  'posts.user_id' , 'users.id')
-        ->orderBy('posts.id', 'desc')
-        ->get();
-          return $posts_json;
+        return post::with('user','likes','comments')->orderBy('created_at','DESC')->get();
       }
     }
 
+    public function likePost($id){
+      $likePost = DB::table('likes')->insert([
+        'posts_id' => $id,
+        'user_id' => Auth::user()->id,
+        'created_at' =>\Carbon\Carbon::now()->toDateTimeString()
+      ]);
+      // if like successfully then display posts
+      if($likePost){
+        return post::with('user','likes','comments')->orderBy('created_at','DESC')->get();
+      }
+    }
+	
+	public function addComment(Request $request){
+		$comment = $request->comment;
+		$id = $request->id;
+		
+       $createComment= DB::table('comments')
+       ->insert(['comment' =>$comment, 'user_id' => Auth::user()->id, 'posts_id' => $id,
+         'created_at' =>\Carbon\Carbon::now()->toDateTimeString()]);
+
+      if($createComment){
+        return post::with('user','likes','comments')->orderBy('created_at','DESC')->get();
+		// return all posts same as before
+      }
+	}
+
+
+    
 
 
 }
