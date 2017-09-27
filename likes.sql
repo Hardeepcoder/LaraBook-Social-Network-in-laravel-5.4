@@ -25,36 +25,44 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `conversation`
+-- Table structure for table `likes`
 --
 
-CREATE TABLE `conversation` (
+CREATE TABLE `likes` (
   `id` int(11) NOT NULL,
-  `user_one` int(11) NOT NULL,
-  `user_two` int(11) NOT NULL
+  `posts_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `conversation`
+-- Dumping data for table `likes`
 --
 
-INSERT INTO `conversation` (`id`, `user_one`, `user_two`) VALUES
-(1, 1, 3),
-(2, 10, 1),
-(5, 3, 11),
-(6, 3, 8),
-(7, 3, 17),
-(8, 10, 3),
-(9, 9, 8);
+INSERT INTO `likes` (`id`, `posts_id`, `user_id`, `created_at`) VALUES
+(1, 3, 1, '2017-07-13 05:03:43'),
+(15, 9, 1, '2017-07-17 10:56:51'),
+(16, 1, 8, '2017-07-17 12:20:09'),
+(19, 9, 8, '2017-07-17 11:27:30'),
+(21, 2, 1, '2017-07-13 05:06:30'),
+(23, 3, 8, '2017-07-13 05:03:43'),
+(24, 1, 3, '2017-07-17 12:20:09'),
+(25, 10, 3, '2017-07-18 12:11:08'),
+(34, 12, 3, '2017-07-19 13:13:46'),
+(35, 11, 3, '2017-07-24 07:44:09'),
+(36, 13, 3, '2017-07-24 07:44:14'),
+(37, 14, 1, '2017-08-18 05:32:51'),
+(38, 14, 1, '2017-08-18 05:32:53'),
+(39, 15, 1, '2017-08-18 05:34:11');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `conversation`
+-- Indexes for table `likes`
 --
-ALTER TABLE `conversation`
+ALTER TABLE `likes`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -62,10 +70,10 @@ ALTER TABLE `conversation`
 --
 
 --
--- AUTO_INCREMENT for table `conversation`
+-- AUTO_INCREMENT for table `likes`
 --
-ALTER TABLE `conversation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;COMMIT;
+ALTER TABLE `likes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

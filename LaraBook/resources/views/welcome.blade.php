@@ -94,7 +94,7 @@
   	            -moz-box-shadow: 0 8px 6px -6px #666;
   	             box-shadow: 0 8px 6px -6px #666;}
 
-#commentBox{
+#commentBox{ 
   background-color:#ddd; 
   padding:10px; 
   width:99%; margin:0 auto;
@@ -104,6 +104,8 @@
 }
 #commentBox li { list-style:none; padding:10px; border-bottom:1px solid #ddd}
 .commet_form{ padding:10px; margin-bottom:10px}
+.commentHand{color:blue}
+.commentHand:hover{cursor:pointer}
         </style>
 
     </head>
@@ -195,11 +197,13 @@
           <div class="">
              <!--<div class="head_har">  Posts</div> -->
 
-             <div v-for="post in posts">
+             <div v-for="post,key in posts" >
               <div class="col-md-12 col-sm-12 col-xs-12 all_posts">
+            
                   <div class="col-md-1 pull-left">
                     <img :src="'{{Config::get('app.url')}}/public/img/' + post.user.pic"
                     style="width:50px;">
+                   
                   </div>
 
               <div class="col-md-10" style="margin-left:10px">
@@ -249,23 +253,28 @@
                     </div>
 
                     <div class="col-md-4">
-                     <p id="showComment">comment</p>
+                    <p @click="commentSeen= !commentSeen" class="commentHand"> 
+                     Comments <b>(@{{post.comments.length}})</b></p>
                     </div>
   
                     </div>
                       
                 </div>
-                <div id="commentBox">
-				<div class="commet_form">
-				<textarea class="form-control" v-model="commentData"></textarea>
-				<button class="btn btn-success" @click="addComment(post.id)">Send</button>
-				</div>
-				<ul v-for="comment in post.comments">
-				<li>@{{comment.comment}}</li>
-				</ul>
-				</div>
-                
+                <div id="commentBox" v-if="commentSeen">
+                <div class="commet_form">
+                   <!-- send comment-->
+                   <textarea class="form-control" v-model="commentData[key]"></textarea>                  
+                    <button class="btn btn-success" 
+                    @click="addComment(post,key)">Send</button>  
+                    </div>
+
+                    <ul v-for="comment in post.comments">
+                      <li>@{{comment.comment}}</li>
+                    </ul>
+                </div>
+           
             </div>
+           
           </div>
       </div>
 
@@ -279,10 +288,11 @@
         </div>
 
         <script src="public/js/app.js"></script>
-<script>
+        <script>
 $(document).ready(function(){
 
 $('#postBtn').hide();
+
   $("#postText").hover(function() {
   $('#postBtn').show();
  });

@@ -21,7 +21,8 @@ const app = new Vue({
    posts: [],
    postId: '',
    successMsg: '',
-   commentData:''
+   commentData:{},
+   commentSeen: false   
   },
 
  ready: function(){
@@ -78,10 +79,11 @@ const app = new Vue({
             console.log(error); // run if we have error
           });
    },    
-   addComment(id){
+   addComment(post,key){
+   
 	       axios.post('http://localhost/larabook/index.php/addComment', {
-            comment: this.commentData,
-			id: id
+            comment: this.commentData[key],
+			      id: post.id
           })
           .then(function (response) {
             console.log('saved successfully'); // show if success
@@ -94,6 +96,7 @@ const app = new Vue({
           });
 	   
    }
+  
 
  }
 });
