@@ -58,10 +58,43 @@ class PostsController extends Controller
         return post::with('user','likes','comments')->orderBy('created_at','DESC')->get();
 		// return all posts same as before
       }
-	}
+  }
 
 
+  public function saveImg(Request $request){
+      $img = $request->get('image');
+
+      // remove extra parts
+      $exploded = explode(",",$img);
+
+     // extention
+     if(str_contains($exploded[0], 'gif')){
+       $ext = 'gif';
+     }else if(str_contains($exploded[0], 'png')){
+       $ext = 'png';
+     }else{
+       $ext = 'jpg';
+     }
+
+     // decode
+     $decode = base64_decode($exploded[1]);
+
+     $filename = str_random() . "." . $ext;
+
+     //path of your local folder
+     $path = public_path() . "/img/" . $filename;
+
+     //upload image to your path
     
+     if(file_put_contents($path,$decode)){
+       echo "file uploaded" . $filename;
+     }
+
+
+  }
+
+  
+
 
 
 }

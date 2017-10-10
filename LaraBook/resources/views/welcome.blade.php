@@ -189,6 +189,17 @@
                 placeholder="what's on your mind ?"></textarea>
                 <button type="submit" class="btn btn-sm btn-info pull-right" style="margin:10px" id="postBtn">Post</button>
                 </form>
+
+                <div v-if="!image">
+                <input type="file" @change="onFileChange"/>
+                </div>
+
+                <div v-else>
+                <img :src="image" style="width:200px"/><br>
+                <button @click="uploadImg" class="btn btn-success">Upload</button>
+                <button @click="removeImg" class="btn btn-danger">Remove</button>
+                </div>
+
               </div>
             </div>
           </div>
@@ -202,8 +213,7 @@
             
                   <div class="col-md-1 pull-left">
                     <img :src="'{{Config::get('app.url')}}/public/img/' + post.user.pic"
-                    style="width:50px;">
-                   
+                    style="width:50px;">                   
                   </div>
 
               <div class="col-md-10" style="margin-left:10px">

@@ -102,7 +102,11 @@ Route::group(['middleware' => 'auth'], function () {
         //like post
         Route::get('/likePost/{id}','PostsController@likePost');
 		//add comments
-		Route::post('addComment', 'PostsController@addComment');
+    Route::post('addComment', 'PostsController@addComment');
+
+    //save image
+    Route::post('saveImg', 'PostsController@saveImg');
+
 });
 Route::group(['prefix' => 'company', 'middleware' => ['auth', 'company']], function () {
  Route::get('/','companyController@index');

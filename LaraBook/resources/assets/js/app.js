@@ -22,7 +22,8 @@ const app = new Vue({
    postId: '',
    successMsg: '',
    commentData:{},
-   commentSeen: false   
+   commentSeen: false,
+   image:''
   },
 
  ready: function(){
@@ -95,8 +96,41 @@ const app = new Vue({
             console.log(error); // run if we have error
           });
 	   
-   }
-  
+   },
 
+   onFileChange(e){
+     var files = e.target.files || e.dataTransfer.files;
+     this.createImg(files[0]); // files the image/ file value to our function
+
+   },
+   createImg(file){
+    // we will preview our image before upload
+    var image = new Image;
+    var reader = new FileReader;
+
+    reader.onload = (e) =>{
+          this.image = e.target.result;
+    };
+    reader.readAsDataURL(file);
+   },
+
+   uploadImg(){
+    axios.post('http://localhost/larabook/index.php/saveImg', {
+      image: this.image
+    })
+    .then(function (response) {
+      console.log(response.data); // show if success
+     
+    })
+    .catch(function (error) {
+      console.log(error); // run if we have error
+    });
+   },
+   removeImg(){
+     this.image=""
+   }
+   
+
+ 
  }
 });
