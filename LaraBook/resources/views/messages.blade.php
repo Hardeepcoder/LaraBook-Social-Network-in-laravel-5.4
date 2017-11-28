@@ -15,7 +15,8 @@
     </div>
 
    <div v-for="privsteMsg in privsteMsgs">
-     <li @click="messages(privsteMsg.id)" style="list-style:none;
+
+     <li v-if="privsteMsg.status==1"  @click="messages(privsteMsg.id)" style="list-style:none;
       margin-top:10px; background-color:#F3F3F3" class="row">
 
         <div class="col-md-3 pull-left">
@@ -28,6 +29,23 @@
           <small>Gender: @{{privsteMsg.gender}}</small>
        </div>
      </li>
+
+     <li v-else  @click="messages(privsteMsg.id)" style="list-style:none;
+      margin-top:10px; background-color:#fff" class="row">
+
+        <div class="col-md-3 pull-left">
+             <img :src="'{{Config::get('app.url')}}/public/img/' + privsteMsg.pic"
+           style="width:50px; border-radius:100%; margin:5px">
+         </div>
+
+        <div class="col-md-9 pull-left" style="margin-top:5px">
+          <b> @{{privsteMsg.name}}</b><br>
+          <small>Gender: @{{privsteMsg.gender}}</small>
+       </div>
+     </li>
+
+
+
    </div>
    <hr>
   </div>

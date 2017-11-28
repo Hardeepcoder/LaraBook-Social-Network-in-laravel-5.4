@@ -53,14 +53,12 @@ const app = new Vue({
    },
    sendMsg(){
      if(this.msgFrom){
-
        axios.post('http://localhost/larabook/index.php/sendMessage', {
               conID: this.conID,
               msg: this.msgFrom
             })
-            .then(function (response) {
+            .then( (response) => {              
               console.log(response.data); // show if success
-
               if(response.status===200){
                 app.singleMsgs = response.data;
               }

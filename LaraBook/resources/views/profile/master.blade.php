@@ -76,10 +76,18 @@ padding:5px; margin:0 auto; text-align:center; color:green}
                             @else
 
 
-                            <li>
-                              <a href="{{url('/messages')}}" title="Messages">
+                          <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                               role="button" aria-expanded="false">
                                 <img src="{{Config::get('app.url')}}/public/img/msg_icon.png" width="30"/>
-                              </a>
+                                <span class="badge"
+                                      style="background:red; position: relative; top: -15px; left:-10px">
+                                      @include('profile.unread')
+                                </span>
+                            </a>
+                          <ul class="dropdown-menu" role="menu" style="width:320px">
+                            <div>here i will show my messages list with images users</div>
+                            </ul>
                             </li>
 
                             <li>

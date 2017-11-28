@@ -88,6 +88,12 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         Route::get('/getMessages/{id}', function($id){
+					//update cov status
+					$update_status = DB::table('conversation')->where('id',$id)
+					->update([
+						'status' => 0 // now read by user
+					]);
+
           $userMsg = DB::table('messages')
           ->join('users', 'users.id','messages.user_from')
           ->where('messages.conversation_id', $id)->get();
