@@ -30,7 +30,18 @@ class PostsController extends Controller
     public function deletePost($id){
       $deletePost = DB::table('posts')->where('id',$id)->delete();
       if($deletePost){
-        return post::with('user','likes','comments')->orderBy('created_at','DESC')->get();
+        return post::with('user','likes','comments')
+        ->orderBy('created_at','DESC')->get();
+      }
+    }
+
+    public function updatePost($id, Request $request){
+      $updatePost = DB::table('posts')->where('id',$id)->update([
+        'content' => $request->updatedContent,
+      ]);
+      if($updatePost){
+        return post::with('user','likes','comments')
+        ->orderBy('created_at','DESC')->get();
       }
     }
 
@@ -45,11 +56,11 @@ class PostsController extends Controller
         return post::with('user','likes','comments')->orderBy('created_at','DESC')->get();
       }
     }
-	
+
 	public function addComment(Request $request){
 		$comment = $request->comment;
 		$id = $request->id;
-		
+
        $createComment= DB::table('comments')
        ->insert(['comment' =>$comment, 'user_id' => Auth::user()->id, 'posts_id' => $id,
          'created_at' =>\Carbon\Carbon::now()->toDateTimeString()]);
@@ -85,15 +96,24 @@ class PostsController extends Controller
      $path = public_path() . "/img/" . $filename;
 
      //upload image to your path
-    
+
      if(file_put_contents($path,$decode)){
-       echo "file uploaded" . $filename;
+      // echo "file uploaded" . $filename;
+      $content = $request->content;
+      $createPost = DB::table('posts')
+      ->insert(['content' =>$content, 'user_id' => Auth::user()->id,'image' => $filename,
+       'status' =>0, 'created_at' =>\Carbon\Carbon::now()->toDateTimeString(), 'updated_at' => \Carbon\Carbon::now()->toDateTimeString() ]);
+
+     if($createPost){
+       return post::with('user','likes','comments')->orderBy('created_at','DESC')->get();
+     }
+
      }
 
 
   }
 
-  
+
 
 
 

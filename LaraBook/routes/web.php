@@ -7,13 +7,24 @@ Route::post('sendNewMessage', 'ProfileController@sendNewMessage');
 Route::post('/sendMessage', 'ProfileController@sendMessage');
 
 Route::get('/', function () {
-  $posts = App\post::with('user','likes','comments')->orderBy('created_at','DESC')->get();
+  $posts = App\post::with('user','likes','comments')
+	->orderBy('created_at','DESC')
+	->get();
   return view('welcome', compact('posts'));
   });
 
 Route::get('/posts', function () {
-      return App\post::with('user','likes','comments')->orderBy('created_at','DESC')->get();
+      return App\post::with('user','likes','comments')
+			->orderBy('created_at','DESC')
+			->get();
 });
+
+Route::get('posts/{id}', function($id){
+	 $pData = App\post::where('id',$id)->get();
+	 echo $pData[0]->content;
+});
+
+Route::post('updatePost/{id}', 'PostsController@updatePost');
 
 Route::post('addPost', 'PostsController@addPost');
 Auth::routes();
