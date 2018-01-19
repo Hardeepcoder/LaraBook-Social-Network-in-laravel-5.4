@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="col-md-12 msgDiv" >
+<div class="col-md-12 msgDiv">
 
   <div style="background-color:#fff" class="col-md-3 pull-left">
     <div class="row" style="padding:10px">
@@ -15,7 +15,6 @@
     </div>
 
    <div v-for="privsteMsg in privsteMsgs">
-
      <li v-if="privsteMsg.status==1"  @click="messages(privsteMsg.id)" style="list-style:none;
       margin-top:10px; background-color:#F3F3F3" class="row">
 
@@ -44,19 +43,17 @@
        </div>
      </li>
 
-
-
    </div>
    <hr>
   </div>
 
 
 
-  <div style="background-color:#fff; min-height:600px; border-left:5px solid #F5F8FA"
-   class="col-md-6">
+  <div class="col-md-6 msg_main">
    <h3 align="center">Messages</h3>
    <p class="alert alert-success">@{{msg}}</p>
-   <div v-for="singleMsg in singleMsgs">
+   <div style="max-height: 200px !important;  overflow-y: scroll;">
+   <div v-for="singleMsg in singleMsgs" >
     <div v-if="singleMsg.user_from == <?php echo Auth::user()->id; ?>">
       <div class="col-md-12" style="margin-top:10px">
         <img :src="'{{Config::get('app.url')}}/public/img/' + singleMsg.pic"
@@ -79,19 +76,17 @@
        </div>
      </div>
    </div>
+ </div>
    <hr>
 
-
-<input type="hidden" v-model="conID">
-<textarea class="col-md-12 form-control" v-model="msgFrom" @keydown="inputHandler"
- style="margin-top:15px; border:none"></textarea>
+   <input type="hidden" v-model="conID">
+   <textarea class="col-md-12 form-control" v-model="msgFrom" @keydown="inputHandler"
+    style="margin-top:15px; border:none"></textarea>
 
   </div>
 
 
-
-  <div style="background-color:#fff; min-height:600px; border-left:5px solid #F5F8FA"
-  class="col-md-3 pull-right">
+  <div class="col-md-3 pull-right msg_right">
    <h3 align="center">User Information</h3>
    <hr>
   </div>

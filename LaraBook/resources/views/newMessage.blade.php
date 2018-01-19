@@ -35,21 +35,19 @@
 
 
 
-  <div style="background-color:#fff; min-height:600px; border-left:5px solid #F5F8FA"
-   class="col-md-6">
+  <div class="col-md-6 msg_main">
    <h3 align="center">Messages</h3>
 <p class="alert alert-success">@{{msg}}</p>
 
    <div  v-if="seen">
-      <input type="text" v-model="friend_id">
+      <input type="hidden" v-model="friend_id">
       <textarea class="col-md-12 form-control" v-model="newMsgFrom"></textarea><br>
       <input type="button" value="send message" @click="sendNewMsg()">
   </div>
 
   </div>
 
-  <div style="background-color:#fff; min-height:600px; border-left:5px solid #F5F8FA"
-  class="col-md-3 pull-right">
+  <div class="col-md-3 pull-right msg_right">
    <h3 align="center">User Information</h3>
    <hr>
   </div>

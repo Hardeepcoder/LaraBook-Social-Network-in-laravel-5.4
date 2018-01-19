@@ -13,6 +13,23 @@
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 <style>
+.msg_main{
+  background-color:#ffff;
+  border-left:5px solid #F5F8FA;
+  position: absolute;
+  left: calc(25%);
+}
+.msg_right{
+  background-color:#ffff;
+  border-left:5px solid #F5F8FA;
+  min-height:600px;
+  position:fixed;
+  right:0px
+}
+.msgDiv{
+ position:fixed; left:0
+}
+
 .left-sidebar li { padding:10px;
   border-bottom:1px solid #ddd;
 list-style:none; margin-left:-20px}
@@ -147,7 +164,7 @@ padding:5px; margin:0 auto; text-align:center; color:green}
 
                     <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    <img src="{{url('../')}}/public/img/{{Auth::user()->pic}}" width="30px" height="30px" class="img-circle"/>
+                                    <img src="{{Config::get('app.url')}}/public/img/{{Auth::user()->pic}}" width="30px" height="30px" class="img-circle"/>
                                     <span class="caret"></span>
                                 </a>
 

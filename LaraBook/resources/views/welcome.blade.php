@@ -62,9 +62,10 @@
             }
             .left-sidebar, .right-sidebar{
               background-color:#fff;
-              min-height:100%
+              height:600px;
+
             }
-            .posts_div{margin-bottom:10px !important}
+            .posts_div{margin-bottom:10px !important;}
             .posts_div h3{
               margin-top:4px !important;
 
@@ -110,12 +111,18 @@
                   display:inline-block;
                   width:100%
                 }
+                .center-con{
+                  max-height:600px;
+                  position: absolute;
+                  left:calc(25%);
+                  overflow-y: scroll;
+                }
         </style>
 
     </head>
     <body>
       @if (Route::has('login'))
-          <div class="top-right links">
+          <div class="top-right links" style="position:fixed">
               @if (Auth::check())
               <a href="{{url('jobs')}}" style="background-color:#283E4A;
               color:#fff; padding:5px 15px 5px 15px; border-radius:5px">Find Job</a>
@@ -136,7 +143,8 @@
   <div class="col-md-12"  id="app">
 @if(Auth::check())
     <!-- left side start -->
-    <div class="col-md-3 left-sidebar hidden-xs hidden-sm">
+    <div class="col-md-3 left-sidebar hidden-xs hidden-sm"
+    style="position:fixed; left:0">
 
      <ul>
        <li>
@@ -236,6 +244,7 @@
                <!--<div class="head_har">  Posts</div> -->
 
                <div v-for="post,key in posts" >
+
                 <div class="col-md-12 all_posts">
 
                     <div class="col-md-1 pull-left">
@@ -244,8 +253,10 @@
                     </div>
 
                 <div class="col-md-10" style="margin-left:10px;">
+
                 <div class="row">
                  <div class="col-md-11">
+
                    <p><a :href="'{{url('profile')}}/' +  post.user.slug" class="user_name"> @{{post.user.name}}</a> <br>
                    <span style="color:#AAADB3">  @{{ post.created_at | myOwnTime}}
                    <i class="fa fa-globe"></i></span></p>
@@ -282,9 +293,12 @@
                              class="form-control">@{{post.content}}</textarea>
                            </div>
                            <div class="modal-footer">
-                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                             <button type="button" class="btn btn-default"
+                             data-dismiss="modal">Close</button>
 
-                              <button type="button" class="btn btn-success" data-dismiss="modal" @click="updatePost(post.id)">Save Changes</button>
+                              <button type="button" class="btn btn-success"
+                               data-dismiss="modal"
+                               @click="updatePost(post.id)">Save Changes</button>
                            </div>
                          </div>
 
@@ -355,7 +369,8 @@
     <!-- center content end -->
 
     <!-- right side start -->
-    <div class="col-md-3 right-sidebar hidden-sm hidden-xs" >
+    <div class="col-md-3 right-sidebar hidden-sm hidden-xs"
+    style="position:fixed; right:0px">
         <h3 align="center">Right Sidebar</h3>
     </div>
     <!-- right side end -->
