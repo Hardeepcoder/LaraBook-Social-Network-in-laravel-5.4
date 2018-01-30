@@ -117,6 +117,18 @@
                   left:calc(25%);
                   overflow-y: scroll;
                 }
+                @media (min-width: 268px) and (max-width: 768px) {
+
+                  .center-con{
+                    max-height:600px;
+                    position: relative;
+                    left:0px;
+                    overflow-y: scroll;
+                  }
+                }
+
+
+
         </style>
 
     </head>
@@ -143,8 +155,7 @@
   <div class="col-md-12"  id="app">
 @if(Auth::check())
     <!-- left side start -->
-    <div class="col-md-3 left-sidebar hidden-xs hidden-sm"
-    style="position:fixed; left:0">
+    <div class="col-md-3 left-sidebar hidden-xs hidden-sm" style="position:fixed; left:10px">
 
      <ul>
        <li>
@@ -193,11 +204,11 @@
             </div>
             <div style="background-color:#fff; padding:10px">
               <div class="row">
-                <div class="col-md-1 pull-left">
+                <div class="col-md-1 col-md-2 pull-left">
                   <img src="{{Config::get('app.url')}}/public/img/{{Auth::user()->pic}}"
                    style="width:50px; margin:5px;  border-radius:100%">
                 </div>
-                <div class="col-md-11 pull-right">
+                <div class="col-md-11 col-sm-10 pull-right">
                 <div v-if="!image">
                   <form method="post" enctype="multipart/form-data" v-on:submit.prevent="addPost">
                   <textarea v-model="content" id="postText" class="form-control"
@@ -370,7 +381,7 @@
 
     <!-- right side start -->
     <div class="col-md-3 right-sidebar hidden-sm hidden-xs"
-    style="position:fixed; right:0px">
+    style="position:fixed; right:10px">
         <h3 align="center">Right Sidebar</h3>
     </div>
     <!-- right side end -->
