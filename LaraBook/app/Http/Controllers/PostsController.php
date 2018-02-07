@@ -3,16 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+//use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\post;
 use App\comments;
+use App\user;
+use DB;
 class PostsController extends Controller
 {
 
     public function index(){
       $posts = DB::table('posts')->get();
       return view('posts',compact('posts'));
+    }
+
+    public function search(Request $request){
+      $qry = $request->qry;
+      if($qry!=""){
+      return  $users= DB::table('users')
+      ->where('name', 'like', '%'. $qry . '%')
+      ->get();
+    }
     }
 
     public function addPost(Request $request){
@@ -22,7 +33,8 @@ class PostsController extends Controller
         'status' =>0, 'created_at' =>\Carbon\Carbon::now()->toDateTimeString(), 'updated_at' => \Carbon\Carbon::now()->toDateTimeString() ]);
 
       if($createPost){
-        return post::with('user','likes','comments')->orderBy('created_at','DESC')->get();
+        return post::with('user','likes','comments')
+        ->orderBy('created_at','DESC')->get();
       }
 
     }

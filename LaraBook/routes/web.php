@@ -1,4 +1,6 @@
 <?php
+
+Route::post('search', 'PostsController@search');
 Route::get('try',function(){
 	return App\post::with('user','likes','comments')->get();
 });

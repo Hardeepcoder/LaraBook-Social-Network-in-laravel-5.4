@@ -26,9 +26,9 @@ class User extends Authenticatable {
      *
      * @var array
      */
-  public function isRole(){
-    return $this->role; // mysql table column
-  }
+    public function isRole(){
+      return $this->role; // mysql table column
+    }
     protected $hidden = [
         'password', 'remember_token',
     ];
@@ -36,13 +36,4 @@ class User extends Authenticatable {
     public function profile() {
         return $this->hasOne('App\profile');
     }
-
-  
-
-
-
-
-
-
-
 }

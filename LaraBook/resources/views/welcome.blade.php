@@ -9,13 +9,15 @@
         <script src="https://use.fontawesome.com/595a5020bd.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 
-        <!-- Styles -->
         <style>
             html, body {
                 background-color: #ddd;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
                 margin: 0;
+            }
+            .top_bar{
+              position:relative; width:99%; top:0; padding:5px; margin:0 5
             }
             .full-height {
               margin-top:50px
@@ -30,8 +32,11 @@
             }
             .top-right {
                 position: absolute;
-                right: 10px;
-                top: 18px;
+                right:5px; top:15px
+            }
+            .top-left {
+                position: absolute;
+                width:40%
 
             }
             .content {
@@ -128,13 +133,29 @@
                 }
 
 
-
         </style>
 
     </head>
     <body>
-      @if (Route::has('login'))
-          <div class="top-right links" style="position:fixed">
+<div id="app">
+<div class="top_bar" >
+
+      <div class="top-left links" style="float:left">
+        <input type="text" class="form-control"
+        placeholder="what are you looking for?"
+        v-model="qry" v-on:Keyup="autoComplete"/>
+        <div class="panel-footer" v-if="results.length"
+        style="position:relative; z-index:1000; border:1px solid #ccc;
+        background:#fff;">
+          <p v-for="result in results">
+            <a :href="'{{url('profile')}}/' +  result.slug">
+              <b>@{{result.name}} </b>
+            </a>
+          </p>
+        </div>
+      </div>
+
+          <div class="top-right links" style="float:right">
               @if (Auth::check())
               <a href="{{url('jobs')}}" style="background-color:#283E4A;
               color:#fff; padding:5px 15px 5px 15px; border-radius:5px">Find Job</a>
@@ -147,12 +168,14 @@
                   <a href="{{ url('/register') }}">Register</a>
               @endif
           </div>
-      @endif
-        <div class="flex-center position-ref full-height">
+
+    </div>
+
+<div class="flex-center position-ref full-height">
 
 
 
-  <div class="col-md-12"  id="app">
+  <div class="col-md-12 "  >
 @if(Auth::check())
     <!-- left side start -->
     <div class="col-md-3 left-sidebar hidden-xs hidden-sm" style="position:fixed; left:10px">
@@ -202,9 +225,10 @@
            <div class="head_har">
           <i class="fa fa-edit"></i> @{{msg}}
             </div>
+
             <div style="background-color:#fff; padding:10px">
               <div class="row">
-                <div class="col-md-1 col-md-2 pull-left">
+                <div class="col-md-1 col-sm-2 pull-left">
                   <img src="{{Config::get('app.url')}}/public/img/{{Auth::user()->pic}}"
                    style="width:50px; margin:5px;  border-radius:100%">
                 </div>
@@ -218,17 +242,13 @@
                   </form>
                   </div>
 
-                  <div v-if="!image" style="position:relative;display:inline-block">
-
+                <div v-if="!image" style="position:relative;display:inline-block">
                  <div style="border:1px solid #ddd; border-radius:10px;
                  background-color:#efefef; padding:3 15 3 10; margin-bottom:10px">
-
-
                  <i class="fa fa-file-image-o"></i> <b>photo</b>
                   <input type="file" @change="onFileChange" style="position:absolute;
                   left:0;top:0; opacity:0"/>
                   </div>
-
                   </div>
 
                   <div v-else>
@@ -324,8 +344,9 @@
                      <p class="col-md-12" style="color:#000; margin-top:15px; font-family:inherit">
                        @{{post.content}}
                        <br>
-                       <img v-if="post.image" :src="'<?php echo Config::get('app.url');?>/public/img/' + post.image"
-                       width="200"/>
+                       <img v-if="post.image"
+                       :src="'{{Config::get('app.url')}}/public/img/' + post.image"
+                       style="width:100%"/>
                      </p>
                     <div style="padding:10px; border-top:1px solid #ddd" class="col-md-12">
                       <div class="col-md-4">
@@ -380,9 +401,10 @@
     <!-- center content end -->
 
     <!-- right side start -->
-    <div class="col-md-3 right-sidebar hidden-sm hidden-xs"
-    style="position:fixed; right:10px">
+    <div class="col-md-3 right-sidebar hidden-sm hidden-xs" style="position:fixed; right:10px">
         <h3 align="center">Right Sidebar</h3>
+
+
     </div>
     <!-- right side end -->
     @else
@@ -391,8 +413,9 @@
   </div>
 
 </div>
-
+</div>
 <script src="public/js/app.js"></script>
+
 <script>
 $(document).ready(function(){
 
@@ -403,6 +426,8 @@ $('#postBtn').hide();
  });
 
 });
+
 </script>
+
     </body>
 </html>
